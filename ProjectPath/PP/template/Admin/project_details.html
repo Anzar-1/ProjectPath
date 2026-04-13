@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <h1>{{p.nom_projet}}</h1>
+    <ul>
+        <li>{{p.description}}</li>
+        <li>Participants :<ul> 
+            {% for etudiant in etudiants%}
+                <li>{{etudiant.nom}} {{etudiant.prenom}}</li>
+            {%endfor%}
+            </ul>
+        </li>
+        <li><a href = "/media/{{p.file_path}}" >{{p.file_path}}</a></li>
+    </ul>
+
+    <form action = "" method = "POST">
+        {%csrf_token%}
+        <input type = "submit" name="accept" value = "Accepter"/>
+        <input type = "submit" name = "refuse" value = "Refuser"/>
+    </form>
+
+    <h1>Commentaire:</h1>
+    <ul>
+        {%for m in message%}
+            <li><b>{{m.objet}}</b></li>
+            <p>{{m.contenu}}</p>
+        {%endfor%}
+    </ul>
+{%endblock%}

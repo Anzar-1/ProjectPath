@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Liste des idées de projet soumises:</h2>
+
+    <ul>
+        {%for b in p%}
+            <li><a href = "{%url 'project_details' b.id user_id 1 %}">{{b.nom_projet}}</a></li>
+        {%endfor%}
+    </ul>
+
+{%endblock%}

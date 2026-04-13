@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <h1>{{b.nom_projet}}</h1>
+    <ul>
+        <li>{{b.typeDeBesoin}}</li>
+        <li>{{b.participants}}</li>
+        <li>{{b.description}}</li>
+    </ul>
+    <a href = "{%url 'modify_request' b.id user_id%}">Modifier la requete</a>
+    <a href  = "{%url 'delete_request' b.id user_id%}">Supprimer la requete</a>
+{%endblock%}

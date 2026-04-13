@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Bonjour</h1>
+    <h2>{{user.nom}}</h2>
+
+    <h2>Vos projets :</h2>
+    <ul>
+        {%for p in user_projects%}
+            <li><a href = "{%url 'project_details' p.id user_id 0 %}" >{{p.nom_projet}}</a></li>
+        {%endfor%}
+    </ul>
+
+   <a href = "{%url 'add_project' user_id%}"> Ajoutez un projet.</a>
+
+   <h2>Vos requetes:</h2>
+   <ul>
+        {%for b in user_request%}
+            <li><a href="{%url request_detail b.id user_id%}">{{b.description}}</a></li>
+        {%endfor%}
+   </ul>
+
+   <a href = "{%url 'add_request' user_id %}">Ajoutez une requete.</a>
+
+{%endblock%}

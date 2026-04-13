@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+
+{%block content%}
+    <ul>
+        <li>{{user.nom}}</li>
+        <li>{{user.prenom}}</li>
+        <li>{{user.adresse_mail}}</li>
+        <li>{{user.telephone}}</li>
+    </ul>
+    <a href="{%url 'modify_staff_account' user.id%}">Modifier le compte utilisateur.</a>
+
+{%endblock%}
