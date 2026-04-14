@@ -170,4 +170,4 @@ def seding_mail(request):
     print(r.json())
 
 def index(request):
-    return render(request, "index.html")
+    return render(request, "Student/index.html")
