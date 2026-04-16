@@ -26,6 +26,8 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'tatachak8@gmail.com' #C'est provisoire
 EMAIL_HOST_PASSWORD = 'ojtw nrcz vwav dwit'
 
+CSRF_TRUSTED_ORIGINS = ["https://projectpath-2890.onrender.com/"]
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
