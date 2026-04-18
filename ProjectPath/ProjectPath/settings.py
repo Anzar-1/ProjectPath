@@ -27,7 +27,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER =  "projectpath.no.replay@gmail.com"
-EMAIL_HOST_PASSWORD = "fqgo mzcl zeno wrxs"
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 CSRF_TRUSTED_ORIGINS = ["https://projectpath-2890.onrender.com"]
 
