@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,8 +26,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'tatachak8@gmail.com' #C'est provisoire
-EMAIL_HOST_PASSWORD = 'ojtw nrcz vwav dwit'
+EMAIL_HOST_USER =  os.getenv("EMAIL_HOST_USER ")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 CSRF_TRUSTED_ORIGINS = ["https://projectpath-2890.onrender.com"]
 
