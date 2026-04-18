@@ -136,13 +136,14 @@ def delete_staff(request, user_id):
 
 from PP.form import contact_form
 from django.core.mail import send_mail
+from ProjectPath.settings import EMAIL_HOST_USER
 
 def contact_us(request,user_id):
     if request.method =="POST":
         form = contact_form(request.POST)
         if form.is_valid():
             send_mail(subject=f'Message from {{form.cleaned_data["adresse_mail"] or "anonyme"}} via ProjectPath Contact us form.',
-                     message= form.cleaned_data["message"], from_email="tatachak8@gmail.com",
+                     message= form.cleaned_data["message"], from_email=EMAIL_HOST_USER,
                      recipient_list= ["germanotifa1@gmail.com"])
 
     else:
