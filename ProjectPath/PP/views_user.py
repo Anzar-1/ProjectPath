@@ -9,20 +9,14 @@ from PP.form import CreateAccount
 from PP.form import authentification_Student
 
 
-def create_acount(request):
-    if request.method == "POST":
-        form = CreateAccount(request.POST)
-        if form.is_valid():
-            user = form.save()
-            return redirect("home", user.id)
-    else:
-        form = CreateAccount()
-    return render(request, "Student/create_account.html", {"form": form})
-
 def student_authentification(request):
     if request.method == "POST":
         form = authentification_Student(request.POST)
-        if exists_Student(form) == []:
+        form_inscription = CreateAccount(request.POST)
+        if exists_Student(form) == [] or form_inscription.is_valid():
+            if form_inscription.is_valid():
+                user = form.save()
+                return redirect("home", user.id)
             user_id = CompteEtudiant.objects.get(matricule = form["matricule"].value()).id
             return redirect("home", user_id)
         else:
@@ -30,16 +24,19 @@ def student_authentification(request):
             return redirect("authentification")
     else:
         form = authentification_Student()
-    return render(request, "Student/authentification.html", {"form": form})
+        form_inscription = CreateAccount()
+    return render(request, "Student/authentification.html", {"form": form, "form_inscription": form_inscription})
 
 def exists_Student(form):
-    matcher = CompteEtudiant.objects.get(matricule = form["matricule"].value()).get_fields()
-    unmatched_fields = []
-    if matcher is None:
+    unmatched_fields = [] 
+    try:
+        matcher = CompteEtudiant.objects.get(matricule = form["matricule"].value()).get_fields() #y a un blem ici
+        #ça retourne pas nul quand la matricule n'existe pas. je viens de le remarquer
+    except CompteEtudiant.DoesNotExist:
         unmatched_fields.append("matricule")
         return unmatched_fields
-        
-
+    
+    matcher = CompteEtudiant.objects.get(matricule = form["matricule"].value()).get_fields()
     if form["mot_de_passe"].value() != matcher[3]:
         unmatched_fields.append("mot_de_passe")
 
@@ -58,7 +55,7 @@ def modify_user_account(request, user_id):
             return redirect("user_details", user.id)
     else:
         form = CreateAccount(instance= user)
-    return render(request, "Student/modify_user_account.html", {"form": form})
+    return render(request, "Student/modify_user_account.html", {"form": form, "user": user})
 
 def delete_user(request, user_id):
     user = CompteEtudiant.objecs.get( id =user_id)

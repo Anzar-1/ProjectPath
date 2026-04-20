@@ -3,16 +3,33 @@ from PP.models import projet
 from PP.models import Besoin
 from PP.models import CompteEtudiant
 from PP.models import CompteAdmin
+from PP.models import contact
+
+class CustomMMCF(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        nom_complet = obj.nom + " " + obj.prenom
+        return "%s" % nom_complet
+
+class CustomFKF(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        nom_complet = obj.nom + " " + obj.prenom
+        return "%s" % nom_complet
 
 class CreateProject(forms.ModelForm):
     class Meta:
         model = projet
         exclude =  ('statut',)
+    participants = CustomMMCF(
+        queryset = CompteEtudiant.objects.all()
+    )
 
 class requestNeed(forms.ModelForm):
     class Meta:
         model = Besoin
         exclude =  ('statut',)
+    participant = CustomFKF(
+        queryset = CompteEtudiant.objects.all()
+    )
 
 class CreateAccount(forms.ModelForm):
     class Meta:
@@ -36,8 +53,6 @@ class Authentification_Admin(forms.ModelForm):
         fields = ["adresse_mail", "mot_de_passe"]
 
 class contact_form(forms.Form):
-    nom = forms.fields.CharField(max_length=50)
-    prenom = forms.fields.CharField(max_length=50)
-    email = forms.fields.EmailField()
-    objet = forms.fields.CharField(max_length =100)
-    message = forms.fields.CharField(max_length= 1000)
+    class Meta:
+        model = contact
+        exclude =('vu',)

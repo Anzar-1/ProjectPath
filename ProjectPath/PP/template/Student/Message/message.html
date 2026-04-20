@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link rel="stylesheet" href="{% static 'css/message.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
+
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div id="dash" class="same" data-page="dashboard.html">
+            <i class="fa-solid fa-house-user"></i>
+            <p>dashboard</p>
+        </div>
+
+        <div class="same" id="soumettre">
+            <i class="fa-solid fa-folder-plus"></i>
+            <a href = "{%url 'add_project' user_id%}">Soumettre un projet</a>
+        </div>
+        <div class="same" id="besoin">
+            <i class="fa-regular fa-square-plus"></i>
+            <a href = "{%url 'add_request' user_id%}">Déclarer un besoin</a>
+        </div>
+        <div class="same" id="message">
+            <i class="fa-regular fa-message"></i>
+            <a href = "{%url 'message_etudiant' user_id%}">message</a>
+        </div>
+        <div class="same" id="profil">
+            <i class="fa-regular fa-user"></i>
+            <a href = "{%url 'user_details' user_id%}">Profil</a>
+        </div>
+        <div class="notification" >
+            <i class="fa-regular fa-bell"></i>
+
+        </div>
+        <div class="compte">
+            <span id="s1">A</span>
+            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+        </div>
+    </nav>
+         <div class="info">
+        <h3>Votre boite d'envois</h3>
+        <p>Suivez les message que vous avez envoyer, et ceux que vous avez reçu de la part de l'administration.</p>
+
+    </div>
+        <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <h2>Boîte de réception</h2>
+            {%if nmb_message_non_vu%}
+                <p>{{nbr_message_non_vu}} message(s) non lu(s)</p>
+            {%endif%}
+        </div>
+        <div class="count">{{nbr_admin}} messages</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" id="receivedTab">
+            Reçus ( {{nbr_admin}} ) 
+             {%if nmb_message_non_vu %}
+                <span class="badge">{{nbr_message_non_vu}}</span>
+            {%endif%}
+        </div>
+        <div class="tab" id="sentTab">
+            Envoyés ( {{nbr_etudiant}} )
+        </div>
+    </div>
+
+    <!-- Search -->
+    <!--<div class="search">
+        <input type="text" placeholder="Rechercher dans les messages...">
+    </div>-->
+
+    <!-- Content -->
+    <div class="content">
+
+        <!-- Messages reçus -->
+        <div id="receivedBox">
+            {%if not nbr_admin %}
+                <h4>Vous n'avez reçu aucun messages.</h4>
+            {%else%}
+                {% for m in message_admin %}
+                <div class="message">
+                    <h4>{{m.objet}}</h4>
+                    <p>{{m.contenu}}</p>
+                </div>
+                {%endfor%}
+            {%endif%}
+        </div>
+
+        <!-- Messages envoyés -->
+        <div id="sentBox" class="hidden empty">
+            {%if not nbr_etudiant %}
+                <div class="icon">✈️</div>
+                <p>Aucun message envoyé</p>
+            {%else%}    
+                {% for m in message_etudiant %}
+                <div class="message">
+                    <h4>{{m.objet}}</h4>
+                    <p>{{m.contenu}}</p>
+                </div>
+                {%endfor%}
+            {%endif%}
+        </div>
+
+    </div>
+
+</div>
+
+    </div>
+    <script type="text/javascript" src = "{% static 'js/message.js' %}"></script>
+</body>
+</html>

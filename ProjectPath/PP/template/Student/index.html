@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="{% static 'css/acceuil.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+    <section class="presentation">
+       <div class="fusee">
+        <i class="fa-solid fa-rocket"></i>
+       </div>
+
+       <div class="star">
+        <i class="fa-regular fa-star"></i>
+        <h4>Platforme officielle de l'école</h4>
+       </div>
+
+       <h2>PROJECTPATH</h2>
+
+    <h3>Innovation & Startup Hub</h3>
+    <p>La platforme de déclaration et de gestion des startups de vote école. Transformez
+        vos idées innovantes en projets soutenus et accompagnés.
+    </p>
+
+    <!--Alors il manque une image-->
+
+    <div class="butt">
+        
+        <button class="commencer"> <i class="fa-solid fa-arrow-right-long"></i>
+            <a href = "{% url 'authentification' %}">Commencer maintenant </a>
+        </button>
+
+       
+        <div class="decouvrir">
+            <a href="#fonctionnalités">Découvrir les fonctionnalités</a>
+        </div>
+
+    </div>
+    </section>
+
+    <section id="fonctionnalités">
+       <h4>Fonctionnalités</h4>
+       <h3>Tout ce dont vous avez besoin</h3>
+       <p class="f">Une plateforme complète pour gérer vos projets de startups du début à la fin </p>
+       <div class="fonction">
+        <div class="same">
+            <div class="icon" id="rocket">
+               <i class="fa-solid fa-rocket"></i> 
+            </div>
+
+            <h5>Soumettez vos projets</h5>
+            <p>Déclarer votre stratup facilement avec un formulaire complet et intuitif</p>
+        </div>
+
+        <div class="same">
+            <div class="icon" id="check">
+               <i class="fa-regular fa-circle-check"></i>
+ 
+            </div>
+
+            <h5>Validation rapide</h5>
+            <p>L'administration examine et valide vos projets en temps réel</p>
+        </div>
+
+        <div class="same">
+            <div class="icon" id="arrow">
+               <i class="fa-solid fa-arrow-trend-up"></i> 
+            </div>
+
+            <h5>Déclarer vos besoins</h5>
+            <p>Demandez des ressources, du matériel, de l'espace ou de l'accompagnement</p>
+        </div>
+
+        <div class="same">
+            <div class="icon" id="message">
+               <i class="fa-regular fa-message"></i>
+            </div>
+
+            <h5>Communication directe</h5>
+            <p>Echangez avec l'administration via la messagerie intégrée</p>
+        </div>
+
+        <div class="same">
+            <div class="icon" id="chart">
+               <i class="fa-solid fa-chart-column"></i>
+            </div>
+
+            <h5>Suivi en temps réel</h5>
+            <p>Dashboard complet pour suivre l'évolution de vos projets</p>
+        </div>
+
+        <div class="same">
+            <div class="icon" id="shield">
+               <i class="fa-solid fa-shield"></i>
+            </div>
+
+            <h5>Sécurisé et fiable</h5>
+            <p>Vos données sont protégées avec un systéme d'authentification sécurisé</p>
+        </div>
+
+        
+       </div>
+    </section>
+    <section class="utilisation">
+        <h6>Comment ça marche</h6>
+        <h3>4 étapes simples</h3>
+        <p class="a">De l'inscription à l'obtention du soutien, voici comment PROJECTPATH fonctionne</p>
+
+        <div class="util">
+            <div class="some">
+                <div class="icon">
+                    <i class="fa-solid fa-users"></i>
+                    <span class="number">01</span>
+                </div>
+                <h4>Créez votre compte</h4>
+                <p>Inscrivez-vous en quelques secondes avec votre email scolaire</p>
+            </div>
+
+                        <div class="some">
+                <div class="icon">
+                    <i class="fa-regular fa-file-lines"></i>
+                    <span class="number">02</span>
+                </div>
+                <h4>Soumettez votre projet</h4>
+                <p>Remplissez le formulaire de déclaration avec votre équipe</p>
+            </div>
+
+                        <div class="some">
+                <div class="icon">
+                    <i class="fa-regular fa-circle-check"></i>
+                    <span class="number">03</span>
+                </div>
+                <h4>Validation</h4>
+                <p>L'administration examine votre projet et vous notifie</p>
+            </div>
+
+                        <div class="some">
+                <div class="icon">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span class="number">04</span>
+                </div>
+                <h4>Obtenez du soutien</h4>
+                <p>Accédez aux ressources et à l'accompagnement de l'école</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="lancer">
+        <div class="container">
+           <i class="fa-solid fa-rocket"></i>
+           <h3>Prét à lancer votre startup ?</h3> 
+           <p>Rejoignez des dizaines qui ont déja transformé leurs idées en projets concrets avec le soutien de l'école</p>
+           
+            <button class="compte">Créer mon compte maintenant</button> 
+
+           
+        </div>
+    </section>
+
+    <footer>
+        <div class="premier">
+             <i class="fa-solid fa-rocket" id="rock"></i>
+             <p>La plateforme officielle de déclaration et de gestion des startups de votre école.</p>
+        </div>
+
+        <div class="deuxieme">
+            <h4>Liens rapides</h4>
+            <a href="{% url 'authentification' %}">Se connecter</a> <br>
+             <a href="{% url 'authentification' %}">S'inscrire</a><br>
+             <a href="">Fonctionnalités</a>
+        </div>
+
+        <div class="troisieme">
+            <p>Ecole Nationale</p> <br> <p>Innovation & Entrepreneuriat</p> <br> <p>contact@projectpath.ma</p>
+        </div>
+    </footer> 
+
+
+<script type="text/javascript" src = "{% static 'js/acceuil.js' %}"></script>
+</body>
+</html>

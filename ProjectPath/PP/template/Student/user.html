@@ -1,12 +1,115 @@
-{%extends 'base.html'%}
+{% load static %}
 
-{%block content%}
-    <ul>
-        <li>{{user.nom}}</li>
-        <li>{{user.prenom}}</li>
-        <li>{{user.adresse_mail}}</li>
-        <li>{{user.telephone}}</li>
-    </ul>
-    <a href="{%url 'modify_user_account' user_id%}">Modifier le compte utilisateur.</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link rel="stylesheet" href="{% static 'css/profil.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
 
-{%endblock%}
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div id="dash" class="same" data-page="dashboard.html">
+            <i class="fa-solid fa-house-user"></i>
+            <p>dashboard</p>
+        </div>
+
+        <div class="same" id="soumettre">
+            <i class="fa-solid fa-folder-plus"></i>
+            <a href = "{%url 'add_project' user_id%}">Soumettre un projet</a>
+        </div>
+        <div class="same" id="besoin">
+            <i class="fa-regular fa-square-plus"></i>
+            <a href = "{%url 'add_request' user_id%}">Déclarer un besoin</a>
+        </div>
+        <div class="same" id="message">
+            <i class="fa-regular fa-message"></i>
+            <a href = "{%url 'message_etudiant' user_id%}">message</a>
+        </div>
+        <div class="same" id="profil">
+            <i class="fa-regular fa-user"></i>
+            <a href = "{%url 'user_details' user_id%}">Profil</a>
+        </div>
+        <div class="notification" >
+            <i class="fa-regular fa-bell"></i>
+
+        </div>
+        <div class="compte">
+            <span id="s1">A</span>
+            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+        </div>
+    </nav>
+     <div class="info">
+        <span>A</span>
+        <div class="etudinfo">
+         <h3>{{user.nom}} {{user.prenom}}</h3>
+        <p>{{user.adresse_mail}}</p>
+        </div>
+        
+    </div>
+
+   <div class="container">
+    <div class="mod">
+        <div class="but">
+            <h4>Informations du profil</h4>
+            <p>Gérez vos informations personnelles</p>
+        </div>
+
+        <div>
+            <button type="button">
+                <a href = "{%url 'modify_user_account' user.id%}">Modifier</a>
+            </button>
+        </div>
+    </div>
+    
+    <div class="same">
+        <label for="nom">Matricule</label>
+        <input type="number" id="nom" value={{user.matricule}} disabled>
+    </div>
+
+    <div class="same">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" value={{user.nom}} disabled>
+    </div>
+
+    <div class="same">
+        <label for="nom">Prenom</label>
+        <input type="text" id="nom" value={{user.prenom}} disabled>
+    </div>
+
+    <div class="same">
+        <label for="email">Email</label>
+        <input type="email" id="email" value={{user.adresse_mail}} disabled>
+    </div>
+
+    <div class="same">
+        <label for="nom">Numero de telephone</label>
+        <input type="number" id="nom" value={{user.telephone}} disabled>
+    </div>
+
+    <div class="same">
+        <label for="niveau">
+            <i class="fa-solid fa-graduation-cap"></i> Niveau
+        </label>
+        <input type="text" id="niveau" value={{user.niveau_etude}} disabled>
+    </div>
+    
+</div>
+<script type="text/javascript" src = "{% static 'js/login.js' %}"></script>
+</body>
+</html>
+
+
+
+

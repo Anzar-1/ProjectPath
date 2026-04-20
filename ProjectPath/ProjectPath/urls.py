@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from PP import views
 from PP import views_user
+from PP import views_message
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,10 +37,9 @@ urlpatterns = [
     path("request_details/update/<int:b_id>/<int:user_id>", views.modify_request, name = "modify_request"),
     path("delete_request/<int:b_id>/<int:user_id>", views.delete_request, name = "delete_request" ),
 
-    path("confirmation/", views.confirmation, name="confirmation"),
+    path("message/<int:user_id>",views_message.message_student , name="message_etudiant"),
     path("contact_us/<int:user_id>", views_user.contact_us, name = "contact_us"),
 
-    path("create_account/", views_user.create_acount, name="create_account"),
     path("user/<int:user_id>", views_user.user_details, name="user_details"),
     path("user/update/<int:user_id>", views_user.modify_user_account, name = "modify_user_account"),
     path("home/<int:user_id>", views.home, name= "home"),

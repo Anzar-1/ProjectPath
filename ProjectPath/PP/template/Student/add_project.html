@@ -1,10 +1,124 @@
-{% extends 'base.html' %}
-{% block content %}
+{% load static %}
 
-    <h2>Soumettez votre projet:</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet</title>
+    <link rel="stylesheet" href="{% static 'css/soumission.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
+
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div id="dash" class="same" data-page="dashboard.html">
+            <i class="fa-solid fa-house-user"></i>
+            <p>dashboard</p>
+        </div>
+
+        <div class="same" id="soumettre">
+            <i class="fa-solid fa-folder-plus"></i>
+            <a href = "{%url 'add_project' user_id%}">Soumettre un projet</a>
+        </div>
+        <div class="same" id="besoin"  data-page="besoin.html">
+            <i class="fa-regular fa-square-plus"></i>
+            <a href = "{%url 'add_request' user_id%}">Déclarer un besoin</a>
+        </div>
+        <div class="same" id="message">
+            <i class="fa-regular fa-message"></i>
+            <a href = "{%url 'message_etudiant' user_id%}">message</a>
+        </div>
+        <div class="same" id="profil">
+            <i class="fa-regular fa-user"></i>
+            <a href = "{%url 'user_details' user_id%}">Profil</a>
+        </div>
+        <div class="notification" >
+            <i class="fa-regular fa-bell"></i>
+
+        </div>
+        <div class="compte">
+            <span id="s1">A</span>
+            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+        </div>
+    </nav>
+    
+    
+    <div class="info">
+        <h3>Soumettre un nouveau projet</h3>
+        <p>Présentez votre startup et obtenez le soutien de votre école</p>
+
+    </div>
+
+
+    <div class="container1">
+        <h5>Informations du projet</h5>
+        <p>Remplissez tous les champs pour soumettre votre projet</p>
+
     <form enctype="multipart/form-data" action="" method = "POST">
         {%csrf_token%}
-        {{form.as_p}}
+
+        <div class="same">
+            {{form.nom_projet.errors}}
+            <label for="nom">Nom du projet / Startups </label>
+            {{form.nom_projet}}
+        </div>
+
+        <div class="same">
+            {{form.domaine.errors}}
+            <label for="domaine">Domaine</label>
+            {{form.domaine}}
+        </div>
+
+        <div class="same">
+           {{form.description.errors}}
+            <label for="description">Description de l'idée</label>
+           {{form.description}}
+        </div>
+
+        <div class="same">
+            {{form.probleme_resolu.errors}}
+            <label for="Problème">Problème résolu</label>
+            {{form.probleme_resolu}}
+        </div>
+
+        <div class="same">
+            {{form.objectif.errors}}
+            <label for="objectif">Objectifs</label>
+            {{form.objectif}}
+        </div>
+
+         <div class="same">
+            {{form.participants.errors}}
+            <label for="objectif">Participants</label>
+            {{form.participants}}
+        </div>
+        <!--Y a surement un moyen de rendre ça plus joli, je vais verifier une autre fois-->
+        <!--Aussi faire en soit que l'utilisateur soit automatiquement dedans.-->
+
+         <div class="same">
+            {{form.file_path.errors}}
+            <label for="objectif">Documents</label>
+            {{form.file_path}}
+        </div>
+        <!--La aussi y a surement un moyen de rendre ça plus joli-->
+
+        <p>&nbsp&nbsp&nbsp</p>
+        <p>&nbsp&nbsp&nbsp</p>
+
         <input type="submit" value = "envoyer"/>
     </form>
-{%endblock%}
+
+    </div>
+
+    <script type="text/javascript" src = "{% static 'js/soumission.js' %}"></script>
+</body>
+</html>

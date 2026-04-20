@@ -1,0 +1,324 @@
+*{
+    margin: 0;
+    padding: 0;
+   
+}
+body{
+ font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(235, 232, 232, 0.281);
+    flex-wrap: wrap;
+}
+
+nav{
+    background: white;
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 60px;
+    color: rgb(59, 58, 58);
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 5px 5px 3px 1px rgb(105, 102, 102);
+}
+
+nav .same{
+    display: flex;
+    background: white;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 10px;
+
+}
+nav .same:hover{
+     background:rgba(239, 239, 239, 0.888);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+nav .same p{
+    font-size: 15px;
+}
+.logo{
+    display: flex;
+    align-items: center;
+    
+}
+.logo i{
+    height: 40px;
+    width: 40px;
+    background: linear-gradient(135deg, rgb(71, 77, 247),rgb(158, 78, 244));
+    display:flex ;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    color: white;
+}
+.logo h4{
+    text-transform: uppercase;
+    font-weight: 900;
+    color:rgb(71, 77, 247) ;
+    
+}
+.logo p{
+    font-size: 13px;
+    color:  rgb(103, 101, 101);
+}
+#s1{
+    background: linear-gradient(135deg, rgb(71, 77, 247),rgb(158, 78, 244));
+    height: 30px;
+    width: 30px;
+    border-radius: 100px;
+    padding: 5px 9px;
+}
+
+/* bouton actif */
+nav .same.active {
+    background: rgb(71, 77, 247);
+    color: white;
+}
+
+/* pour que les icônes deviennent blanches aussi */
+nav .same.active i {
+    color: white;
+}
+
+/* petit effet smooth */
+nav .same {
+    transition: 0.3s;
+}
+
+.info{
+    margin-top: 100px;
+    color: white;
+    border-radius: 15px;
+    width: 69%;
+    min-height: 150px;
+     background: linear-gradient(to right, rgb(71, 77, 247),rgb(158, 78, 244));
+     display: flex;
+     flex-direction: column;
+     padding-left: 40px;
+     flex-wrap: wrap;
+    
+}
+.info h3{
+    padding-top: 40px;
+    font-size: 35px;
+    padding-bottom: 10px;
+}
+.info p{
+  color: white;
+  padding-bottom: 20px;
+}
+
+.container1{
+    width: 69%;
+     min-height: 600px;
+    border: 1px solid rgb(228, 222, 222);
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    background: white;
+    border-radius: 15px;
+}
+.container1 h5, .header2 h5, .upload-container h5{
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+.container1 p, .header2 p, .upload-container p{
+    color:rgb(103, 101, 101)  ;
+
+}
+.container #op1{
+        color:rgb(103, 101, 101)  ;
+
+}
+label{
+    font-weight: bold;
+    font-size: 14px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+.container1 .same{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 27px;
+}
+input ,select{
+    height: 30px;
+    border-radius: 7px;
+    padding-left: 10px;
+    border: none;
+    background:rgba(236, 236, 236, 0.635) ;
+
+}
+textarea{
+    font-family: inherit;
+    resize: none;
+    height: 60px;
+    border-radius:10px ;
+    padding-top: 17px;
+    display: flex;
+    justify-content: center;
+        padding-left: 10px;
+    border: none;
+    background:rgba(236, 236, 236, 0.635) ;
+    font-size: 15px;
+}
+*
+.container2{
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 30px;
+  width: 69%;
+   border: 1px solid rgb(228, 222, 222);
+}
+
+.container2 .header1{
+  display: flex;
+  justify-content: space-between;
+}
+.container2 .inputs{
+  
+  display: flex;
+  gap: 5px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.container2 .inputs input{
+  flex: 1;
+}
+
+
+
+.container2 .member {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  color: black;
+  cursor: pointer;
+}
+
+.add-btn {
+  color: black;
+  border: 1px solid rgb(228, 222, 222);
+  padding: 0px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  background: white;
+  font-weight: bold;
+}
+
+.container input {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px;
+}
+
+*
+
+
+.upload-container {
+  width: 69%;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.upload-container h2 {
+  margin-bottom: 15px;
+}
+
+.upload-box {
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  padding: 40px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 15px;
+}
+
+.upload-box:hover {
+  border-color: #007bff;
+  background: #f0f8ff;
+}
+
+.upload-icon {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.upload-box p {
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.upload-box span {
+  font-size: 12px;
+  color: gray;
+}
+
+#fileName {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.container3{
+    width: 72%;
+    height: 100px;
+    border: 1px solid rgb(228, 222, 222);
+    margin: 20px 0;
+    border-radius: 15px;
+     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    position: relative;
+}
+.container3 p{
+    color: rgb(103, 101, 101);
+    font-size: 12px;
+    padding-bottom:5px;
+}
+.container3 button{
+    
+    border-radius: 10px;
+    font-size: 15px;
+    border: none;
+    background: linear-gradient(to right, rgba(150, 2, 199, 0.979),rgb(240, 22, 127));
+    color: white;
+    padding-left:20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    
+
+}

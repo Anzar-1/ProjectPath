@@ -1,12 +1,134 @@
-{%extends 'base.html'%}
+{% load static %}
 
-{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Besoin</title>
+    <link rel="stylesheet" href="{% static 'css/besoin.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
 
-    <h1>Faire une requete :</h1>
-    <form action ="" method="POST">
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div id="dash" class="same" data-page="dashboard.html">
+            <i class="fa-solid fa-house-user"></i>
+            <p>dashboard</p>
+        </div>
+
+        <div class="same" id="soumettre">
+            <i class="fa-solid fa-folder-plus"></i>
+            <a href = "{%url 'add_project' user_id%}">Soumettre un projet</a>
+        </div>
+        <div class="same" id="besoin">
+            <i class="fa-regular fa-square-plus"></i>
+            <a href = "{%url 'add_request' user_id%}">Déclarer un besoin</a>
+        </div>
+        <div class="same" id="message">
+            <i class="fa-regular fa-message"></i>
+            <a href = "{%url 'message_etudiant' user_id%}">message</a>
+        </div>
+        <div class="same" id="profil" >
+            <i class="fa-regular fa-user"></i>
+            <a href = "{%url 'user_details' user_id%}">Profil</a>
+        </div>
+        <div class="notification" >
+            <i class="fa-regular fa-bell"></i>
+
+        </div>
+        <div class="compte">
+            <span id="s1">A</span>
+            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+        </div>
+    </nav>
+    
+    <div class="info">
+        <h3>Déclarer un besoin</h3>
+        <p>Faites connaître vos besoins en ressources, matériel, espace ou accompagnement</p>
+    </div>
+
+        <div class="container1">
+        <h4>Types de besoins que vous pouvez déclarer :</h4>
+        <div class="part">
+        <div class="part1">
+            <p><span>🖥️ Matériel:</span> Ordinateurs, équipements</p>
+            <p><span>🏢 Espace:</span> Salle de réunion, bureau</p>
+            <p><span>💰 Budget:</span> Financement, subventions</p>
+            <p><span>👨‍🏫 Encadrement: </span> Mentors, conseillers</p>
+        </div>
+
+        <div class="part2">
+             <p><span>🔬 Laboratoire: </span>  Accès aux équipements</p>
+            <p><span>🛠️ Support technique</span> Assistance IT</p>
+            <p><span>📚 Formation:</span> Ateliers, cours</p>
+            <p><span>🤝 Networking:</span> Contacts, partenaires</p>
+        </div>
+        </div>
+       
+    </div>
+
+    <div class="container2">
+        <h5>Formulaire de demande</h5>
+        <p>Décrivez précisément votre besoin pour faciliter son traitement</p>
+    
+
+    <form enctype="multipart/form-data" action ="" method="POST">
         {%csrf_token%}
-        {{form.as_p}}
-        <input type="submit" value = "Envyer"/>
+        <div class="same">
+            {{form.projet_concerne.errors}}
+            <label for="nom">projet concerné</label>
+            {{form.projet_concerne}}
+        </div>
+
+        <div class="same">
+            {{form.typeDeBesoin.errors}}
+            <label for="domaine">Type de besoin</label>
+            {{form.typeDeBesoin}}
+        </div>
+
+        <div class="same">
+           {{form.description.errors}}
+            <label for="description">Description du besoin</label>
+           {{form.description}}
+        </div>
+        
+        <div class="same">
+           {{form.participant.errors}}
+            <label for="description">Etudiant concerne</label>
+           {{form.participant}}
+        </div>
+        <!--Juste pour dire que ENCORE je dois faire en sorte que les noms des etudiants apparaissents-->
+        <!--Peut être faire en sorte que l'étudiant ne puisse que ce choisir lui meme-->
+
+        <div class="same">
+            {{form.justification.errors}}
+            <label for="Problème">Justification</label>
+            {{form.justification}}
+        </div>
+
+        <div class="same">
+            {{form.file_path.errors}}
+            <label for="jointe">Pièces jointes (optionnel)</label>
+            {{form.file_path}}
+        </div>
+
+        <p>&nbsp&nbsp&nbsp</p>
+        <p>&nbsp&nbsp&nbsp</p>
+
+        <input type="submit" value = "Envoyer"/>
     </form>
 
-{%endblock%}
+    </div>
+
+    <script type="text/javascript" src = "{% static 'js/besoin.js' %}"></script>
+</body>
+</html>
