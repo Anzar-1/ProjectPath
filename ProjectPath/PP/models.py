@@ -58,13 +58,13 @@ class Besoin(models.Model):
 
     projet_concerne = models.fields.CharField(max_length=20)
     class TypeDeBesoin(models.TextChoices):
-        Materiel = "MATERIEL"
-        Budget = "BUDGET"
-        Encadrement = "ENCADREMENT"
-        Laboratoire = "LABORATOIRE"
-        Support_Technique = "SUPPORT TECHNIQUE"
-        Formation = "FORMATION"
-        Networking = "NETWORKING"
+        Materiel = "Materiel" ,'Materiel'
+        Budget = "Budget", 'Budget'
+        Encadrement = "Encadrement", 'Encadrement'
+        Laboratoire = "Laboratoire", 'Laboratoire'
+        Support_Technique = "Support Technique", 'Support Technique'
+        Formation = "Formation", 'Formation'
+        Networking = "Networking", 'Networking'
 
 
     typeDeBesoin = models.fields.CharField(max_length = 20 , choices = TypeDeBesoin.choices, default = "MATERIEL") #si ça se trouve tu dois choisir parmi une liste
@@ -101,7 +101,8 @@ class message(models.Model):#Message admin->etudiant
     contenu = models.fields.CharField(max_length=1500)
     emetteur = models.ForeignKey(CompteAdmin, on_delete= models.SET_NULL, null= True)
     receveur = models.ManyToManyField(CompteEtudiant)
-    project = models.ForeignKey(projet, on_delete = models.CASCADE)
+    project = models.ForeignKey(projet, on_delete = models.CASCADE, null = True, blank = True)
+    request = models.ForeignKey(Besoin, on_delete= models.CASCADE, null =  True, blank = True)#J'ai pas encore migrer
     vu = models.fields.BooleanField(default = False)
 
 class contact(models.Model): #Message etudiant ->admin

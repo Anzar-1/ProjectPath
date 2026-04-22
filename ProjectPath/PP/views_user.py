@@ -71,6 +71,28 @@ from PP.models import CompteAdmin
 from PP.form import CreateAdmin
 from PP.form import Authentification_Admin
 
+from PP.models import projet
+from PP.models import Besoin
+
+def staff_Dashboard(request, user_id):
+    
+    project = projet.objects.all()
+    project_nbr = project.count()
+    prj_enAtt = projet.objects.filter(statut = "EnAttente").count()
+    prj_valide = projet.objects.filter(statut = "Accepte").count()
+    prj_refuse = projet.objects.filter(statut = "Refuse").count()
+    
+    besoin = Besoin.objects.all()
+    besoin_nbr = besoin.count()
+    bs_enAtt = Besoin.objects.filter(statut = "EnAttente").count()
+    bs_valide = Besoin.objects.filter(statut = "Accepte").count()
+    bs_refuse = Besoin.objects.filter(statut = "Refuse").count()
+
+    return render(request, "Admin/dashboard.html",{"user_id": user_id, "project": project, "besoin": besoin,
+                                                    "project_nbr": project_nbr, "prj_enAtt": prj_enAtt, " prj_valide": prj_valide,
+                                                    "prj_refuse": prj_refuse ,"besoin_nbr": besoin_nbr, "bs_enAtt":bs_enAtt ,
+                                                    "bs_valide":bs_valide, "bs_refuse": bs_refuse })
+
 def create_staff_account(request):
     if request.method == "POST":
         form = CreateAdmin(request.POST)
@@ -131,41 +153,6 @@ def delete_staff(request, user_id):
 
 #Other stuff
 
-from PP.form import contact_form
-from django.core.mail import send_mail
-from ProjectPath.settings import EMAIL_HOST_USER
-
-def contact_us(request,user_id):
-    if request.method =="POST":
-        form = contact_form(request.POST)
-        if form.is_valid():
-            send_mail(subject=f'Message from {{form.cleaned_data["adresse_mail"] or "anonyme"}} via ProjectPath Contact us form.',
-                     message= form.cleaned_data["message"], from_email=EMAIL_HOST_USER,
-                     recipient_list= ["germanotifa1@gmail.com"])
-
-    else:
-        form = contact_form()
-    return render(request, "Student/contact_us.html", {"form": form})
-
-
-
-import json
-
-def seding_mail(request):
-    with open("api-key.json") as f: key = json.load(f)["key"] #faudrait que je lui demainde que represente ces fichier
-    with open("token.json") as f: token = json.load(f)
-
-    url = "https://api0utmail-test-email.vercel.app/sendHtml"
-    payload = {
-        "api_key": key,
-        "google_token": token,
-        "to": "friend@gmail.com",
-        "subject": "Python Test",
-        "html": "<h1>Hello form Python</h1>"
-    }
-
-    r = render(request,url, json=payload)
-    print(r.json())
 
 def index(request):
     return render(request, "Student/index.html")

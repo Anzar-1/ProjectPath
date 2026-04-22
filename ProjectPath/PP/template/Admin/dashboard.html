@@ -1,0 +1,78 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>PROJECTPATH - Admin Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">PROJECTPATH</div>
+    <div class="nav-links">
+      <a href="{%url 'Staff_DashBoard' user_id%}">Dashboard</a>
+      <a href="#" onclick="navigate('messages')">Messages</a>
+    </div>
+  </nav>
+  <main id="app"></main>
+      <div class="header-banner">
+      <h1>Tableau de bord administrateur</h1>
+      <p>Gérer les projets et les demandes des étudiants</p>
+    </div>
+    <div class="stats">
+      <div class="card"><h2>{{project_nbr}}</h2><p>Total des projets</p></div>
+      <div class="card"><h2>{{prj_enAtt}}</h2><p>Projets en attente</p></div>
+      <div class="card"><h2>{{prj_valide}}</h2><p>Projets validés</p></div> <!--Je recheck apres-->
+      <div class="card"><h2>{{prj_refuse}}</h2><p>Projets refusés</p></div>
+    </div>
+    <div id="project-list"></div>
+    
+    {%for p in project%}
+        <div class="project-card">
+          <h3>{{p.nom_projet}}</h3>
+          <p>{{p.descrition}}</p>
+          <span class="status">{{p.statut}}</span>
+          <div class="actions">
+            <!--<button class="view" onclick="">Voir détails</button>-->
+            <button><a href = "{%url 'project_details' p.id user_id 1%}">Voir détails</a></button>
+            <!--<button class="approve" onclick="">Valider</button>
+            <button class="reject" onclick="">Refuser</button>-->
+          </div>
+        </div>
+    {%endfor%}
+
+    <div class="header-banner" style="margin-top:40px;">
+      <h2>Demandes de ressources</h2>
+      <p>Créer et gérer les demandes des étudiants</p>
+    </div>
+    <div class="stats">
+      <div class="card"><h2>{{besoin_nbr}}</h2><p>Total des demandes</p></div>
+      <div class="card"><h2>{{bs_enAtt}}</h2><p>En attente</p></div>
+      <div class="card"><h2>{{bs_valide}}</h2><p>Approuvées</p></div>
+      <div class="card"><h2>{{bs_refuse}}</h2><p>Refusées</p></div>
+      <div class="card"><h2><!--Jsp ce que c'est--></h2><p>Initiées</p></div>
+    </div>
+    <div id="demandes-list"></div>
+
+    {%for b in besoin%}
+        <div class="project-card">
+          <h3>{{b.typeDeBesoin}}</h3>
+          <p>{{b.descrition}}</p>
+          <span class="status">{{b.statut}}</span>
+          <div class="actions">
+            <button><a href = "{%url 'request_details' b.id user_id 1%}">Voir détails</a></button>
+            <!--
+            <button class="approve" onclick="">Valider</button>
+            <button class="reject" onclick="">Refuser</button>-->
+          </div>
+        </div>
+    {%endfor%}
+
+        <!--Les boutons etait colore de base, ya surement moyen de remettre ça.-->
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
+
+

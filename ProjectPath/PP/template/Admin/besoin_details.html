@@ -16,8 +16,8 @@
     </div>
   </nav>
 
-    <h2>{{p.nom_projet}}</h2>
-      <p>{{p.description}}</p>
+    <h2>{{b.nom_projet}}</h2>
+      <p>{{b.description}}</p>
         
       <!--Jai oublier ce que c'est-->
       <!--<span class="status ${projet.statut.replace(" ", "")}">${projet.statut}</span>
@@ -26,18 +26,16 @@
         <button class="reject" onclick="updateStatusDetail(${id}, 'refusé')">Refuser</button>
       </div>-->
 
-    <h3>Problème résolu</h3>
-        <p>{{p.probleme_resolu}}</p>
-    <h3>Objectifs</h3>
-        <p>{{p.objectif}}</p>
-    <h3>Équipe</h3>
-        {% for etudiant in etudiants%}
-            <li>{{etudiant.nom}} {{etudiant.prenom}}</li>
-        {%endfor%}
+    <h3>Type de Besoin</h3>
+        <p>{{b.typeDeBesoin}}</p>
+    <h3>Justification</h3>
+        <p>{{b.justification}}</p>
+    <h3>Soumetteur!</h3>
+        <p>{{b.participant.nom}}  {{b.participant.prenom}}></p>
     <h3>Document</h3>
-        <a href = "/media/{{p.file_path}}" >{{p.file_path}}</a>
+        <a href = "/media/{{b.file_path}}" >{{p.file_path}}</a>
     <h3>Commentaires & échanges</h3>
-        {%if message_nb %}
+        {%if message_nb%}
             <ul>
             {%for m in message%}
                 <li><b>{{m.objet}}</b></li>

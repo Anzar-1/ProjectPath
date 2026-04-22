@@ -26,19 +26,21 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views_user.index),
 
-    path('project_list/<int:user_id>', views.project_list, name = "project_list"),
+    path('staff_dashboard/<int:user_id>', views_user.staff_Dashboard, name = "Staff_DashBoard"),
+    path('details/<int:thingie_id>/<int:user_id>/sendComment', views_message.create_commentaire,name="commentaire"),
+
     path('add_project/<int:user_id>', views.add_project, name = "add_project"),
     path("project_details/<int:project_id>/<int:user_id>/<int:user_type>", views.project_details, name="project_details"),
     path("project_details/update/<int:project_id>/<int:user_id>", views.modify_project, name="modify_Project"),
     path('project_delete/<int:project_id>/<int:user_id>', views.delete_project, name = "delete_Project"),
 
-    path("request_details/<int:b_id>/<int:user_id>",views.request_details, name= 'request_details'),
+    path("request_details/<int:b_id>/<int:user_id>/<int:user_type>",views.request_details, name= 'request_details'),
     path("add_request/<int:user_id>", views.add_request, name = "add_request"),
     path("request_details/update/<int:b_id>/<int:user_id>", views.modify_request, name = "modify_request"),
     path("delete_request/<int:b_id>/<int:user_id>", views.delete_request, name = "delete_request" ),
 
     path("message/<int:user_id>",views_message.message_student , name="message_etudiant"),
-    path("contact_us/<int:user_id>", views_user.contact_us, name = "contact_us"),
+    path("contact_us/<int:user_id>", views_message.contact_us, name = "contact_us"),
 
     path("user/<int:user_id>", views_user.user_details, name="user_details"),
     path("user/update/<int:user_id>", views_user.modify_user_account, name = "modify_user_account"),

@@ -4,6 +4,7 @@ from PP.models import Besoin
 from PP.models import CompteEtudiant
 from PP.models import CompteAdmin
 from PP.models import contact
+from PP.models import message
 
 class CustomMMCF(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
@@ -52,7 +53,12 @@ class Authentification_Admin(forms.ModelForm):
         model= CompteAdmin
         fields = ["adresse_mail", "mot_de_passe"]
 
-class contact_form(forms.Form):
+class contact_form(forms.ModelForm):
     class Meta:
         model = contact
         exclude =('vu',)
+
+class message_form(forms.ModelForm):
+    class Meta:
+        model = message
+        exclude = ('vu',)

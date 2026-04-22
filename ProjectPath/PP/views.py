@@ -13,9 +13,6 @@ from PP.models import message
 
 #Project CRUD
 
-def project_list(request, user_id):
-    P = projet.objects.all()
-    return render(request, 'Admin/project_list.html',{'p':P, "user_id": user_id})
 
 def add_project(request,user_id):
     if request.method =="POST":
@@ -30,26 +27,30 @@ def add_project(request,user_id):
 def project_details(request, project_id,user_id,user_type):
     projett =  projet.objects.get(id = project_id)
     messages = message.objects.filter(project = projett)
+    message_nbr = messages.count()
     etudiants = projett.get_participant()
     if user_type == 1:
         projett.statut = "EnAttente"
         projett.save()
         if request.method == "POST":
-            accept_refuse_form(request, projett)
+            return accept_refuse_form(request, projett,user_id)
         return render(request, "Admin/project_details.html", {"p" : projett , "etudiants" : etudiants ,
-                                                    "user_id": user_id, "message" : messages, 
+                                                    "user_id": user_id, "message" : messages,"message_nb":message_nbr ,
                                                     "user_type":user_type})
     elif user_type == 0:
         return render(request, "Student/project_details.html", {"p" : projett ,"user_id": user_id, "message" : messages, 
                                                     "user_type":user_type, "etudiants": etudiants})
 
-def accept_refuse_form(request, projett):
+def accept_refuse_form(request, projett, user_id):
     if "accept" in request.POST:
         projett.statut = "Accepte"
         projett.save()
+        thingie_id = projett.id
+        return redirect("commentaire",thingie_id,user_id)
     elif "refuse" in request.POST:
        projett.statut = "Refuse"
        projett.save()
+       return redirect("commentaire",thingie_id,user_id)
     #Ici je veux faire une pop up, dans le sens ou si t'appuie sur accepté, on te demande de choisir une date +
     #ça envoie un mail, et si t'appuie sur refuser on te demande c'est "quoi comme type de refus" et le motif de
     #refus. Mais je sais pas faire une pop up.
@@ -86,9 +87,25 @@ def home(request,user_id):
     return render(request,"Student/home.html",{"user" : user, "user_projects": user_projects,
                                                "user_request":user_request ,"user_id": user_id})
 
-def request_details(request,b_id,user_id):
+def request_details(request,b_id,user_id,user_type):
     b= Besoin.objects.get(id= b_id)
-    return render(request, "besoin_detail.html", {"user_id" : user_id, "b" : b})
+    messages = message.objects.filter(request = b)
+    message_nbr = messages.count()
+    etudiants = b.participant
+    if user_type == 1:
+        b.statut = "EnAttente"
+        b.save()
+        if request.method == "POST":
+            accept_refuse_form(request, b)
+        return render(request, "Admin/besoin_details.html", {"b" : b , "etudiants" : etudiants ,
+                                                    "user_id": user_id, "message" : messages, "messag_nb":message_nbr,
+                                                    "user_type":user_type})
+    elif user_type == 0:
+        return render(request, "Student/project_details.html", {"b" : b ,"user_id": user_id, "message" : messages, 
+                                                    "user_type":user_type, "etudiants": etudiants})
+
+
+
 
 def add_request(request, user_id):
     if request.method == "POST":
