@@ -45,15 +45,18 @@ def accept_refuse_form(request, projett, user_id):
     if "accept" in request.POST:
         projett.statut = "Accepte"
         projett.save()
-        thingie_id = projett.id
-        return redirect("commentaire",thingie_id,user_id)
+
     elif "refuse" in request.POST:
        projett.statut = "Refuse"
        projett.save()
-       return redirect("commentaire",thingie_id,user_id)
-    #Ici je veux faire une pop up, dans le sens ou si t'appuie sur accepté, on te demande de choisir une date +
-    #ça envoie un mail, et si t'appuie sur refuser on te demande c'est "quoi comme type de refus" et le motif de
-    #refus. Mais je sais pas faire une pop up.
+      
+    elif "document_manquant" in request.POST:
+        projett.statut = "DocumentManquant"
+        projett.save()
+
+    thingie_id = projett.id
+    return redirect("commentaire",thingie_id,user_id)
+
 
 def modify_project(request,project_id,user_id):
     p = projet.objects.get(id= project_id)
@@ -66,7 +69,7 @@ def modify_project(request,project_id,user_id):
             return redirect("project_details",project_id, user_id)
     else:
         form = CreateProject(instance=p)
-    return render(request,"Student/modify_project.html", {"form" : form ,"user_id": user_id})
+    return render(request,"Student/add_project.html", {"form" : form ,"user_id": user_id})
 
 def delete_project(request, project_id,user_id):
     p = projet.objects.get(id = project_id)
@@ -77,6 +80,9 @@ def delete_project(request, project_id,user_id):
 
 def confirmation(request):
     return render(request, "confirmation.html")
+
+
+
 
 #Request CRUD
 
@@ -105,11 +111,9 @@ def request_details(request,b_id,user_id,user_type):
                                                     "user_type":user_type, "etudiants": etudiants})
 
 
-
-
 def add_request(request, user_id):
     if request.method == "POST":
-        form = requestNeed(request.POST)
+        form = requestNeed(request.POST, request.FILES)
         if form.is_valid():
             b = form.save()
             return redirect("request_details",b.id, user_id)
@@ -120,7 +124,7 @@ def add_request(request, user_id):
 def modify_request(request, b_id,user_id):
     besoin = Besoin.objects.get(id = b_id)
     if request.method == "POST":
-        form = requestNeed(request.POST, instance = besoin)
+        form = requestNeed(request.POST, request.FILES,instance = besoin)
         if form.is_valid():
             b = form.save()
             b.statut = "NonVue"
@@ -128,7 +132,7 @@ def modify_request(request, b_id,user_id):
             return redirect("request_details",b_id, user_id)
     else:
         form = requestNeed(instance= besoin)
-    return render(request, "Student/modify_besoin.html", {"form" : form,"user_id": user_id})
+    return render(request, "Student/add_besoin.html", {"form" : form,"user_id": user_id})
 
 def delete_request(request, b_id,user_id):
     b = Besoin.objects.get(id=b_id)

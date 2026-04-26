@@ -16,10 +16,8 @@ def contact_us(request,user_id):
     if request.method =="POST":
         form = contact_form(request.POST)
         if form.is_valid():
-            send_mail(subject=f'Message from {{form.cleaned_data["adresse_mail"] or "anonyme"}} via ProjectPath Contact us form.',
-                     message= form.cleaned_data["message"], from_email=EMAIL_HOST_USER,
-                     recipient_list= ["germanotifa1@gmail.com"])
-
+            form.save()
+            return redirect("home", user_id)
     else:
         form = contact_form()
     return render(request, "Student/contact_us.html", {"form": form})

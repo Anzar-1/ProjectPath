@@ -1,9 +1,63 @@
-{%extends 'base.html'%}
+{%load static%}
 
-{%block content%}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Contactez nous !</title>
+  <link rel="stylesheet" href="{% static 'css/soumission.css' %}"">
+</head>
+<body>
+
+    <div class="info">
+        <h3>Envoyez un message.</h3>
+
+    </div>
+
+
+    <div class="container1">
+        <h5>Envoyez un message</h5>
+        <p>Remplissez tous les champs pour envoyer un message</p>
+
     <form action="" method = "POST">
         {%csrf_token%}
-        {{form.as_p}}
-        <input type = "submit" value = "Envoyer" />
+
+        <div class="same">
+            {{form.nom.errors}}
+            <label for="nom">nom </label>
+            {{form.nom}}
+        </div>
+
+        <div class="same">
+            {{form.prenom.errors}}
+            <label for="prenom">prenom</label>
+            {{form.prenom}}
+        </div>
+
+        <div class="same">
+           {{form.email.errors}}
+            <label for="email">email</label>
+           {{form.email}}
+        </div>
+
+        <div class="same">
+            {{form.objet.errors}}
+            <label for="objet">objet</label>
+            {{form.objet}}
+        </div>
+
+        <div class="same">
+            {{form.message.errors}}
+            <label for="message">message</label>
+            {{form.message}}
+        </div>
+        
+        <p>&nbsp&nbsp&nbsp</p>
+        <p>&nbsp&nbsp&nbsp</p>
+
+        <input type="submit" value = "envoyer"/>
     </form>
-{%endblock%}
+
+
+</body>
+</html>
