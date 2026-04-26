@@ -47,14 +47,14 @@
         </div>
         <div class="compte">
             <span id="s1">A</span>
-            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+            <span id="s2"> {{user.last_name}} {{user.first_name}}</span>
         </div>
     </nav>
      <div class="info">
         <span>A</span>
         <div class="etudinfo">
-         <h3>{{user.nom}} {{user.prenom}}</h3>
-        <p>{{user.adresse_mail}}</p>
+         <h3>{{user.first_name}} {{user.last_name}}</h3>
+        <p>{{user.email}}</p>
         </div>
         
     </div>
@@ -79,6 +79,8 @@
         <form action="" method = "POST">
             {% csrf_token %}
             {{form.as_p}}
+
+            <p>&nbsp;&nbsp;&nbsp;</p>
             <input type="submit" value = "modifier"/>
         </form>
     </div>

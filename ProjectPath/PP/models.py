@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
 
 def Validate_email_adress(value):
     if not value.endswith('@estin.dz'):
@@ -17,11 +18,8 @@ def Validate_fichier(value):
     if not value.endswith(".pdf"):
         raise ValidationError("Le fichier dois être un PDF.")
 
-class CompteEtudiant(models.Model):
-    matricule = models.fields.IntegerField(unique=True, validators= [Validate_matricule])
-    nom = models.fields.CharField(max_length = 100)
-    prenom = models.fields.CharField(max_length = 100)
-
+class CompteEtudiant(AbstractUser, PermissionsMixin):
+    matricule = models.fields.IntegerField(unique=True, validators= [Validate_matricule], default = "121241212")
     class Niveau(models.TextChoices):
         one = "1CP", "1CP"
         two = "2CP", "2CP"
@@ -30,12 +28,18 @@ class CompteEtudiant(models.Model):
         five = "3CS", "3CS"
 
     niveau_etude = models.fields.CharField(max_length = 5 , choices = Niveau.choices, default = "1CP")
-    mot_de_passe = models.fields.CharField( max_length = 100 ) #Y a surement un moyen de la rendre invisible au formulaire, jsp si c'est mon boulot pour l'instant.
-    adresse_mail = models.fields.EmailField(validators=[Validate_email_adress])
-    telephone = models.fields.IntegerField(validators=[Validate_telephone])
+    adresse_mail = models.fields.EmailField(blank=True, max_length=254, verbose_name='email address',default = "Bonjour@estin.dz")
+    telephone = models.fields.IntegerField(validators=[Validate_telephone], default=42)
+    
+    EMAIL_FIELD = 'adress_mail'
+
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
     def get_fields(self):
-        return([self.matricule, self.nom, self.prenom, self.mot_de_passe, self.adresse_mail, self.telephone])
+        return([self.matricule,self.niveau_etude, self.last_name, self.first_name, 
+                self.password, self.email, self.telephone, self.username])
 
 class CompteAdmin(models.Model):
     nom = models.fields.CharField(max_length = 100)
@@ -77,7 +81,7 @@ class Besoin(models.Model):
 class projet(models.Model):
     nom_projet= models.fields.CharField(max_length=100)
     description = models.fields.CharField(max_length=1000)
-    participants = models.ManyToManyField(CompteEtudiant)
+    participants = models.ForeignKey(CompteEtudiant, on_delete = models.CASCADE, null = True, blank=True)
     probleme_resolu = models.fields.CharField(max_length=200)
 
     class Domaine(models.TextChoices):

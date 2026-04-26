@@ -43,11 +43,15 @@
         </div>
         <div class="notification" >
             <i class="fa-regular fa-bell"></i>
-
         </div>
+
+        <div class="same" id="profil">
+            <a href = "{%url 'contact_us' user_id%}">Contactez nous</a>
+        </div>
+
         <div class="compte">
-            <span id="s1">A</span>
-            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+            <a href="{%url 'logout'%}">Se déconnecter</a>
+            <span id="s2"> {{user.last_name}} {{user.first_name}}</span>
         </div>
     </nav>
     

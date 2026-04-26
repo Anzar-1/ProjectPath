@@ -20,7 +20,7 @@ def contact_us(request,user_id):
             return redirect("home", user_id)
     else:
         form = contact_form()
-    return render(request, "Student/contact_us.html", {"form": form})
+    return render(request, "Student/contact_us.html", {"form": form, "user_id": user_id})
 
 
 def create_commentaire(request,thingie_id,user_id):

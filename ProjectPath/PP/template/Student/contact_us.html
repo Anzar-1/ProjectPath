@@ -9,6 +9,49 @@
 </head>
 <body>
 
+      <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div id="dash" class="same" data-page="dashboard.html">
+            <i class="fa-solid fa-house-user"></i>
+            <p>dashboard</p>
+        </div>
+
+        <div class="same" id="soumettre">
+            <i class="fa-solid fa-folder-plus"></i>
+            <a href = "{%url 'add_project' user_id%}">Soumettre un projet</a>
+        </div>
+        <div class="same" id="besoin"  data-page="besoin.html">
+            <i class="fa-regular fa-square-plus"></i>
+            <a href = "{%url 'add_request' user_id%}">Déclarer un besoin</a>
+        </div>
+        <div class="same" id="message">
+            <i class="fa-regular fa-message"></i>
+            <a href = "{%url 'message_etudiant' user_id%}">message</a>
+        </div>
+        <div class="same" id="profil">
+            <i class="fa-regular fa-user"></i>
+            <a href = "{%url 'user_details' user_id%}">Profil</a>
+        </div>
+        <div class="notification" >
+            <i class="fa-regular fa-bell"></i>
+        </div>
+        <div class="same" id="profil">
+            <a href = "{%url 'contact_us' user_id%}">Contactez nous</a>
+        </div>
+
+        <div class="compte">
+            <a href="{%url 'logout'%}">Se déconnecter</a>
+            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+        </div>
+    </nav>
+    
+
     <div class="info">
         <h3>Envoyez un message.</h3>
 

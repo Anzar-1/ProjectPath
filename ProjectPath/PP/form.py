@@ -6,23 +6,21 @@ from PP.models import CompteAdmin
 from PP.models import contact
 from PP.models import message
 
-class CustomMMCF(forms.ModelMultipleChoiceField):
-    def label_from_instance(self, obj):
-        nom_complet = obj.nom + " " + obj.prenom
-        return "%s" % nom_complet
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 class CustomFKF(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        nom_complet = obj.nom + " " + obj.prenom
+        nom_complet = obj.last_name + " " + obj.first_name
         return "%s" % nom_complet
 
 class CreateProject(forms.ModelForm):
     class Meta:
         model = projet
         exclude =  ('statut',)
-    participants = CustomMMCF(
+    participants = CustomFKF(
         queryset = CompteEtudiant.objects.all()
-    )
+     )
 
 class requestNeed(forms.ModelForm):
     class Meta:
@@ -32,16 +30,19 @@ class requestNeed(forms.ModelForm):
         queryset = CompteEtudiant.objects.all()
     )
 
-class CreateAccount(forms.ModelForm):
+class CreateAccount(UserCreationForm):
     class Meta:
-        model = CompteEtudiant
-        fields = '__all__'
+        model = get_user_model()
+        fields = ['username', 'matricule', 'first_name' ,'last_name', 'email','niveau_etude' ,'telephone']
 
-class authentification_Student(forms.ModelForm):
+class authentification_Student(forms.Form):
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput)
+
+class ModifyStudentAccount(forms.ModelForm):
     class Meta:
-        model = CompteEtudiant
-        fields= ['matricule', 'mot_de_passe']
-    #Je l'ai toujours pas implementé
+        model = get_user_model()
+        fields = ['username', 'matricule', 'first_name' ,'last_name', 'email','niveau_etude' ,'telephone']
 
 class CreateAdmin(forms.ModelForm):
     class Meta:

@@ -6,63 +6,68 @@ from django.contrib import messages
 
 from PP.models import CompteEtudiant
 from PP.form import CreateAccount
-from PP.form import authentification_Student
+from PP.form import authentification_Student, ModifyStudentAccount
 
+from django.contrib.auth import authenticate ,login, logout
+from django.contrib.auth.decorators import login_required
+
+def logingout(request):
+    logout(request)
+    return redirect('authentification')
 
 def student_authentification(request):
     if request.method == "POST":
         form = authentification_Student(request.POST)
         form_inscription = CreateAccount(request.POST)
-        if exists_Student(form) == [] or form_inscription.is_valid():
+        if form.is_valid() or form_inscription.is_valid():
+            if form.is_valid():
+                return authentificate_user(request, form)
             if form_inscription.is_valid():
-                user = form.save()
-                return redirect("home", user.id)
-            user_id = CompteEtudiant.objects.get(matricule = form["matricule"].value()).id
-            return redirect("home", user_id)
-        else:
-            messages.error(request, "matricule ou mot de passe incorects.")
-            return redirect("authentification")
+                return sign_up(request, form_inscription)
+        else: 
+            print(form.errors)
+            print(form_inscription.errors)
     else:
         form = authentification_Student()
         form_inscription = CreateAccount()
     return render(request, "Student/authentification.html", {"form": form, "form_inscription": form_inscription})
 
-def exists_Student(form):
-    unmatched_fields = [] 
-    try:
-        matcher = CompteEtudiant.objects.get(matricule = form["matricule"].value()).get_fields() #y a un blem ici
-        #ça retourne pas nul quand la matricule n'existe pas. je viens de le remarquer
-    except CompteEtudiant.DoesNotExist:
-        unmatched_fields.append("matricule")
-        return unmatched_fields
-    
-    matcher = CompteEtudiant.objects.get(matricule = form["matricule"].value()).get_fields()
-    if form["mot_de_passe"].value() != matcher[3]:
-        unmatched_fields.append("mot_de_passe")
+def authentificate_user(request,form):
+    user_name = form.cleaned_data['username']
+    password = form.cleaned_data['password']
+    user = authenticate(request,username =user_name, password =password)
 
-    return unmatched_fields
+    if user is not None :
+        login(request, user)
+        user_id = user.id
+        return redirect("home", user_id)
+    else:
+        messages.error(request, "Nom d'utilisateur ou mot de passe incorects.")
+        return 
 
+def sign_up(request, form):
+    user = form.save()
+    login(request, user)
+    user_id = user.id
+    return redirect("home", user_id)
+
+@login_required
 def user_details(request, user_id):
     user = CompteEtudiant.objects.get(id = user_id)
     return render(request, "Student/user.html", {"user": user, "user_id": user_id})
 
+@login_required
 def modify_user_account(request, user_id):
     user = CompteEtudiant.objects.get(id = user_id)
     if request.method == "POST":
-        form = CreateAccount(request.POST, instance = user)
+        form = ModifyStudentAccount(request.POST, instance = user)
         if form.is_valid():
             user = form.save()
             return redirect("user_details", user.id)
     else:
-        form = CreateAccount(instance= user)
+        form = ModifyStudentAccount(instance= user)
     return render(request, "Student/modify_user_account.html", {"form": form, "user": user})
-
-def delete_user(request, user_id):
-    user = CompteEtudiant.objecs.get( id =user_id)
-    if request.method == "POST":
-        user.delete()
-        #return redirect("page_d'accueil")
-    return render(request, "Student/delete_user.html")
+#ça change pas le mot de passe.
 
 
 #STAFF authetification

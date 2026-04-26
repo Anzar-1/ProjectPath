@@ -10,10 +10,11 @@ from PP.form import requestNeed
 from PP.models import CompteEtudiant
 
 from PP.models import message
+from django.contrib.auth.decorators import login_required
 
 #Project CRUD
 
-
+@login_required
 def add_project(request,user_id):
     if request.method =="POST":
         form = CreateProject(request.POST, request.FILES)
@@ -24,6 +25,7 @@ def add_project(request,user_id):
         form = CreateProject()
     return render(request, "Student/add_project.html", {'form' : form ,"user_id": user_id})
 
+@login_required
 def project_details(request, project_id,user_id,user_type):
     projett =  projet.objects.get(id = project_id)
     messages = message.objects.filter(project = projett)
@@ -41,6 +43,7 @@ def project_details(request, project_id,user_id,user_type):
         return render(request, "Student/project_details.html", {"p" : projett ,"user_id": user_id, "message" : messages, 
                                                     "user_type":user_type, "etudiants": etudiants})
 
+@login_required
 def accept_refuse_form(request, projett, user_id):
     if "accept" in request.POST:
         projett.statut = "Accepte"
@@ -57,7 +60,7 @@ def accept_refuse_form(request, projett, user_id):
     thingie_id = projett.id
     return redirect("commentaire",thingie_id,user_id)
 
-
+@login_required
 def modify_project(request,project_id,user_id):
     p = projet.objects.get(id= project_id)
     if request.method == "POST":
@@ -71,21 +74,12 @@ def modify_project(request,project_id,user_id):
         form = CreateProject(instance=p)
     return render(request,"Student/add_project.html", {"form" : form ,"user_id": user_id})
 
-def delete_project(request, project_id,user_id):
-    p = projet.objects.get(id = project_id)
-    if request.method == "POST":
-        p.delete()
-        return redirect("home", user_id)
-    return render(request, "Student/delete_projet.html")
-
-def confirmation(request):
-    return render(request, "confirmation.html")
-
 
 
 
 #Request CRUD
 
+@login_required
 def home(request,user_id):
     user = CompteEtudiant.objects.get(id = user_id) 
     user_projects = user.projet_set.all()
@@ -93,6 +87,7 @@ def home(request,user_id):
     return render(request,"Student/home.html",{"user" : user, "user_projects": user_projects,
                                                "user_request":user_request ,"user_id": user_id})
 
+@login_required
 def request_details(request,b_id,user_id,user_type):
     b= Besoin.objects.get(id= b_id)
     messages = message.objects.filter(request = b)
@@ -110,7 +105,7 @@ def request_details(request,b_id,user_id,user_type):
         return render(request, "Student/project_details.html", {"b" : b ,"user_id": user_id, "message" : messages, 
                                                     "user_type":user_type, "etudiants": etudiants})
 
-
+@login_required
 def add_request(request, user_id):
     if request.method == "POST":
         form = requestNeed(request.POST, request.FILES)
@@ -121,6 +116,7 @@ def add_request(request, user_id):
         form = requestNeed()
     return render(request, "Student/add_besoin.html", {"form" : form ,"user_id": user_id})
 
+@login_required
 def modify_request(request, b_id,user_id):
     besoin = Besoin.objects.get(id = b_id)
     if request.method == "POST":
@@ -133,10 +129,3 @@ def modify_request(request, b_id,user_id):
     else:
         form = requestNeed(instance= besoin)
     return render(request, "Student/add_besoin.html", {"form" : form,"user_id": user_id})
-
-def delete_request(request, b_id,user_id):
-    b = Besoin.objects.get(id=b_id)
-    if request.method == "POST":
-        b.delete()
-        return redirect("home", user_id)
-    return render(request, "Student/delete_besoin.html")

@@ -43,18 +43,20 @@
         </div>
         <div class="notification" >
             <i class="fa-regular fa-bell"></i>
-
         </div>
+        <div class="same" id="profil">
+            <a href = "{%url 'contact_us' user_id%}">Contactez nous</a>
+        </div>
+
         <div class="compte">
-            <span id="s1">A</span>
-            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+            <a href="{%url 'logout'%}">Se déconnecter</a>
         </div>
     </nav>
      <div class="info">
         <span>A</span>
         <div class="etudinfo">
-         <h3>{{user.nom}} {{user.prenom}}</h3>
-        <p>{{user.adresse_mail}}</p>
+         <h3>{{user.first_name}} {{user.last_name}}</h3>
+        <p>{{user.email}}</p>
         </div>
         
     </div>
@@ -80,22 +82,22 @@
 
     <div class="same">
         <label for="nom">Nom</label>
-        <input type="text" id="nom" value={{user.nom}} disabled>
+        <input type="text" id="nom" value={{user.first_name}} disabled>
     </div>
 
     <div class="same">
         <label for="nom">Prenom</label>
-        <input type="text" id="nom" value={{user.prenom}} disabled>
+        <input type="text" id="nom" value={{user.last_name}} disabled>
     </div>
 
     <div class="same">
         <label for="email">Email</label>
-        <input type="email" id="email" value={{user.adresse_mail}} disabled>
+        <input type="email" id="email" value={{user.email}} disabled>
     </div>
 
     <div class="same">
         <label for="nom">Numero de telephone</label>
-        <input type="number" id="nom" value={{user.telephone}} disabled>
+        <input type="number" id="nom" value=0{{user.telephone}} disabled>
     </div>
 
     <div class="same">

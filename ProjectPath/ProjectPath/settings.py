@@ -142,3 +142,12 @@ STATIC_DIR = [os.path.join(BASE_DIR ,'PP/static')]
 
 STATIC_ROOT = os.path.join(BASE_DIR ,'staticfiles')
 
+#Authentification
+
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+LOGIN_URL = 'authentification/'
+
+AUTH_USER_MODEL = 'PP.CompteEtudiant'
