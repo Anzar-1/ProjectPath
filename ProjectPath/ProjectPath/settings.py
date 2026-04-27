@@ -148,6 +148,6 @@ AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.ModelBackend',
     )
 
-LOGIN_URL = 'authentification/'
+LOGIN_URL = '/authentification/'
 
 AUTH_USER_MODEL = 'PP.CompteEtudiant'
