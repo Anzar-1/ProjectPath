@@ -13,6 +13,8 @@ from django.core.mail import send_mail
 from ProjectPath.settings import EMAIL_HOST_USER
 
 def contact_us(request,user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     if request.method =="POST":
         form = contact_form(request.POST)
         if form.is_valid():
@@ -24,6 +26,8 @@ def contact_us(request,user_id):
 
 
 def create_commentaire(request,thingie_id,user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     if request.method == 'POST':
         form = message_form(request.POST)
         if form.is_valid():
@@ -34,6 +38,8 @@ def create_commentaire(request,thingie_id,user_id):
     return render(request,"Admin/ecrire_message.html",{"form": form})
 
 def message_student(request, user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     user = CompteEtudiant.objects.get(id = user_id)
     message_de_etudiant = contact.objects.filter(email = user.adresse_mail)
     nbr_message_de_etudiant =contact.objects.filter(email = user.adresse_mail).count()

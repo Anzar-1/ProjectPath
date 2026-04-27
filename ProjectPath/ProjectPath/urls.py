@@ -49,6 +49,5 @@ urlpatterns = [
     path("create_admin_account/", views_user.create_staff_account, name="create_staff_account"),
     path("staff/<int:user_id>", views_user.staff_details, name="staff_details"),
     path("staff/update/<int:user_id>", views_user.modify_staff_account, name="modify_staff_account"),
-    path("authentification_staff/", views_user.staff_authetification, name="staff_authetification"),
  
 ]+static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

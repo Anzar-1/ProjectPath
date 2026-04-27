@@ -16,6 +16,8 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def add_project(request,user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     if request.method =="POST":
         form = CreateProject(request.POST, request.FILES)
         if form.is_valid():
@@ -27,6 +29,8 @@ def add_project(request,user_id):
 
 @login_required
 def project_details(request, project_id,user_id,user_type):
+    if request.user.id != user_id:
+        return redirect("logout")
     projett =  projet.objects.get(id = project_id)
     messages = message.objects.filter(project = projett)
     message_nbr = messages.count()
@@ -45,6 +49,8 @@ def project_details(request, project_id,user_id,user_type):
 
 @login_required
 def accept_refuse_form(request, projett, user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     if "accept" in request.POST:
         projett.statut = "Accepte"
         projett.save()
@@ -62,6 +68,8 @@ def accept_refuse_form(request, projett, user_id):
 
 @login_required
 def modify_project(request,project_id,user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     p = projet.objects.get(id= project_id)
     if request.method == "POST":
         form = CreateProject(request.POST, request.FILES, instance = p )
@@ -81,6 +89,8 @@ def modify_project(request,project_id,user_id):
 
 @login_required
 def home(request,user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     user = CompteEtudiant.objects.get(id = user_id) 
     user_projects = user.projet_set.all()
     user_request = user.besoin_set.all()
@@ -89,6 +99,8 @@ def home(request,user_id):
 
 @login_required
 def request_details(request,b_id,user_id,user_type):
+    if request.user.id != user_id:
+        return redirect("logout")
     b= Besoin.objects.get(id= b_id)
     messages = message.objects.filter(request = b)
     message_nbr = messages.count()
@@ -107,6 +119,8 @@ def request_details(request,b_id,user_id,user_type):
 
 @login_required
 def add_request(request, user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     if request.method == "POST":
         form = requestNeed(request.POST, request.FILES)
         if form.is_valid():
@@ -118,6 +132,8 @@ def add_request(request, user_id):
 
 @login_required
 def modify_request(request, b_id,user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     besoin = Besoin.objects.get(id = b_id)
     if request.method == "POST":
         form = requestNeed(request.POST, request.FILES,instance = besoin)

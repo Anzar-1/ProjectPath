@@ -9,7 +9,7 @@ from PP.form import CreateAccount
 from PP.form import authentification_Student, ModifyStudentAccount
 
 from django.contrib.auth import authenticate ,login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 def logingout(request):
     logout(request)
@@ -40,10 +40,13 @@ def authentificate_user(request,form):
     if user is not None :
         login(request, user)
         user_id = user.id
-        return redirect("home", user_id)
+        if user.is_staff:
+            return redirect("Staff_DashBoard", user_id)
+        else:
+            return redirect("home", user_id)
     else:
         messages.error(request, "Nom d'utilisateur ou mot de passe incorects.")
-        return 
+    return redirect("authentification")
 
 def sign_up(request, form):
     user = form.save()
@@ -53,11 +56,15 @@ def sign_up(request, form):
 
 @login_required
 def user_details(request, user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     user = CompteEtudiant.objects.get(id = user_id)
     return render(request, "Student/user.html", {"user": user, "user_id": user_id})
 
 @login_required
 def modify_user_account(request, user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
     user = CompteEtudiant.objects.get(id = user_id)
     if request.method == "POST":
         form = ModifyStudentAccount(request.POST, instance = user)
@@ -72,15 +79,19 @@ def modify_user_account(request, user_id):
 
 #STAFF authetification
 
-from PP.models import CompteAdmin
-from PP.form import CreateAdmin
-from PP.form import Authentification_Admin
-
 from PP.models import projet
 from PP.models import Besoin
 
+def is_staff_user(user):
+    return user.is_staff
+
+@login_required
+@user_passes_test(is_staff_user)
 def staff_Dashboard(request, user_id):
-    
+
+    if request.user.id != user_id:
+        return redirect("logout")
+
     project = projet.objects.all()
     project_nbr = project.count()
     prj_enAtt = projet.objects.filter(statut = "EnAttente").count()
@@ -100,61 +111,40 @@ def staff_Dashboard(request, user_id):
 
 def create_staff_account(request):
     if request.method == "POST":
-        form = CreateAdmin(request.POST)
+        form = CreateAccount(request.POST)
         if form.is_valid():
             user = form.save()
-            return redirect("project_list", user.id)
+            user.is_staff = True
+            user.save()
+            user_id = user.id
+            login(request, user)
+            return redirect("Staff_DashBoard", user_id)
     else:
-        form = CreateAdmin()
+        form = CreateAccount()
     return render(request, "Admin/create_account.html", {"form": form})
 
-def staff_authetification(request):
-    if request.method == "POST":
-        form = Authentification_Admin(request.POST)
-        if staff_exists(form) == []:
-            user_id = CompteAdmin.objects.get(adresse_mail = form["adresse_mail"].value()).id
-            return redirect("project_list", user_id)
-        else:
-            messages.error(request, "email ou mot de passe incorects.")
-            return redirect("authentification")
-    else:
-        form = Authentification_Admin()
-    return render(request, "Admin/authentification.html", {"form": form})
-    
-def staff_exists(form):    
-    matcher = CompteAdmin.objects.get(adresse_mail = form["adresse_mail"].value()).get_fields()
-    unmatched_fields = []
-
-    if matcher is None:
-        unmatched_fields.append("adresse_mail")
-        return unmatched_fields
-    
-    if form["mot_de_passe"].value() != matcher[2]:
-        unmatched_fields.append("mot de passe")
-
-    return unmatched_fields
-    
+@login_required
+@user_passes_test(is_staff_user)    
 def staff_details(request, user_id):
-    user = CompteAdmin.objects.get(id = user_id)
+    if request.user.id != user_id:
+        return redirect("logout")
+    user = CompteEtudiant.objects.get(id = user_id)
     return render(request, "Admin/user.html", {"user": user}) 
     
+@login_required
+@user_passes_test(is_staff_user)
 def modify_staff_account(request, user_id):
-    user = CompteAdmin.objects.get(id = user_id)
+    if request.user.id != user_id:
+        return redirect("logout")
+    user = CompteEtudiant.objects.get(id = user_id)
     if request.method == "POST":
-        form = CreateAdmin(request.POST, instance = user)
+        form = CreateAccount(request.POST, instance = user)
         if form.is_valid():
             user = form.save()
             return redirect("staff_details", user.id)
     else:
-        form = CreateAdmin(instance= user)
+        form = CreateAccount(instance= user)
     return render(request, "Admin/modify_account.html", {"form": form}) 
-
-def delete_staff(request, user_id):
-    user = CompteAdmin.objecs.get( id =user_id)
-    if request.method == "POST":
-        user.delete()
-        #return redirect("page_d'accueil")
-    return render(request, "Admin/delete_account.html")
 
 #Other stuff
 
