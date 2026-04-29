@@ -7,10 +7,23 @@
 body{
 background: linear-gradient(to bottom right,rgba(45, 45, 203, 0.85),rgba(57, 5, 57, 0.9)),url(imm/startup.jpeg)no-repeat 50% 50%;
 background-size:cover ;
-height: 610px;
+height: 100%;
 color: white;
 display: flex;
 gap: 15px;
+}
+
+input{
+    width: 100%;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    padding-left: 12px;
+    background-color: #f9fafb;
+    font-size: 14px;
+    color: #111827;
+    outline: none;
+    transition: 0.2s;
 }
 
 .description{
@@ -32,7 +45,7 @@ padding-left: 40px;
     background:white;
     color: black;
     border-radius: 25px;
-    min-height: 560px;
+    height: 100%;
     width: 90%;
     margin-top: 15px;
     margin-bottom: 10px;
@@ -43,11 +56,14 @@ padding-left: 40px;
     display: none;
     
 }
+
+
 .container.active{
     display: block;
      display: flex;
     flex-direction: column;
     align-items: center;
+    height:100%;
 }
 .description #fusee{
      width: 70px;

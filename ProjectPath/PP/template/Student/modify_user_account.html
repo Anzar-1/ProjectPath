@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  
-
     <nav>
         <div class="logo">
             <i class="fa-solid fa-rocket"></i>
@@ -20,36 +18,35 @@
                 <p>Innovation Hub</p>
             </div>
         </div>
-        <div id="dash" class="same" data-page="dashboard.html">
+        <div id="dash" class="same" data-page="{%url 'home' user_id%}">
             <i class="fa-solid fa-house-user"></i>
             <p>dashboard</p>
         </div>
 
-        <div class="same" id="soumettre" data-page="soumission.html">
+        <div class="same" id="soumettre" data-page="{%url 'add_project' user_id%}">
             <i class="fa-solid fa-folder-plus"></i>
             <p>Soumettre un projet</p>
         </div>
-        <div class="same" id="besoin"  data-page="besoin.html">
+        <div class="same" id="besoin" data-page="{%url 'add_request' user_id%}">
             <i class="fa-regular fa-square-plus"></i>
             <p>Déclarer un besoin</p>
         </div>
-        <div class="same" id="message" data-page="message.html">
+        <div class="same" id="message" data-page = "{%url 'message_etudiant' user_id}">
             <i class="fa-regular fa-message"></i>
-            <p>message</p>
+            <p href = "{%url 'message_etudiant' user_id%}">message</p>
         </div>
-        <div class="same" id="profil" data-page="profil.html">
+        <div class="same" id="profil" data-page="{%url 'user_details' user_id}">
             <i class="fa-regular fa-user"></i>
             <p>Profil</p>
-        </div>
-        <div class="notification" >
-            <i class="fa-regular fa-bell"></i>
 
-        </div>
         <div class="compte">
-            <span id="s1">A</span>
-            <span id="s2"> {{user.last_name}} {{user.first_name}}</span>
+            <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+            <a href="{%url 'logout'%}">Se déconnecter</a>
         </div>
+
+        
     </nav>
+    
      <div class="info">
         <span>A</span>
         <div class="etudinfo">

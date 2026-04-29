@@ -1,26 +1,188 @@
-{% extends 'base.html' %}
+{% load static %}
 
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
+    
 
-    <h1>Bonjour</h1>
-    <h2>{{user.nom}}</h2>
+    <!-- ORIGINAL NAV (Kept exactly as requested) -->
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <div id="dash" class="same" data-page="{%url 'home' user_id%}">
+                <i class="fa-solid fa-house-user"></i>
+                <p>Dashboard</p>
+            </div>
+            <div class="same" id="soumettre" data-page="{%url 'add_project' user_id%}">
+                <i class="fa-solid fa-folder-plus"></i>
+                <p>Soumettre un projet</p>
+            </div>
+            <div class="same" id="besoin" data-page="{%url 'add_request' user_id%}">
+                <i class="fa-regular fa-square-plus"></i>
+                <p>Déclarer un besoin</p>
+            </div>
+            <div class="same" id="message" data-page="{%url 'message_etudiant' user_id%}">
+                <i class="fa-regular fa-message"></i>
+                <p>Messages</p>
+            </div>
+            <div class="same" id="profil" data-page="{%url 'user_details' user_id%}">
+                <i class="fa-regular fa-user"></i>
+                <p>Profil</p>
+            </div>
 
-    <h2>Vos projets :</h2>
-    <ul>
-        {%for p in user_projects%}
-            <li><a href = "{%url 'project_details' p.id user_id 0 %}" >{{p.nom_projet}}</a></li>
-        {%endfor%}
-    </ul>
+            <div class="compte">
+                <a href="{%url 'logout'%}">Se déconnecter</a>
+        </div>
+        <div class="nav-right">
+            <div class="compte">
+                <span id="s1">A</span>
+                <span id="s2">{{user.last_name}} {{user.first_name}}</span>
+            </div>
+            <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
 
-   <a href = "{%url 'add_project' user_id%}"> Ajoutez un projet.</a>
+     <!-- MAIN CONTENT -->
+    <main class="container">
+        
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+            <h1 class="hero-title">Bonjour <span id="userNameHero">{{user.first_name}} {{user.last_name}}</span></h1>
+            <div class="hero-buttons">
+                <button class="btn btn-white action-nouveau-projet" data-page="">
+                    <i class="fa-solid fa-plus"></i>
+                    <a href = "{%url 'add_project' user_id%}">Nouveau projet</a>
+                </button>
+                <button class="btn btn-white action-declarer-besoin">
+                    <i class="fa-solid fa-plus"></i>
+                    <a href = "{%url 'add_request' user_id%}">Nouveau besoin</a>
+                </button>
+            </div>
+        </section>
 
-   <h2>Vos requetes:</h2>
-   <ul>
-        {%for b in user_request%}
-            <li><a href="{%url request_detail b.id user_id%}">{{b.description}}</a></li>
-        {%endfor%}
-   </ul>
+         <!-- STATS SECTION -->
+        <section class="stats-grid">
+            <div class="stat-card stat-total">
+                <p class="stat-label">Total des projets</p>
+                <h2 class="stat-value" id="stat-total-val">{{prj_nb}}</h2>
+                <div class="stat-footer text-gray">
+                    <i class="fa-regular fa-folder-open"></i> Tous vos projets
+                </div>
+            </div>
+            <div class="stat-card stat-approved">
+                <p class="stat-label">Projets approuvés</p>
+                <h2 class="stat-value text-green" id="stat-approved-val">{{prj_valide}}</h2>
+                <div class="stat-footer text-green">
+                    <i class="fa-regular fa-circle-check"></i>
+                </div>
+            </div>
+            <div class="stat-card stat-pending">
+                <p class="stat-label">{{prj_enAtt}}</p>
+                <h2 class="stat-value text-yellow" id="stat-pending-val">1</h2>
+                <div class="stat-footer text-yellow">
+                    <i class="fa-regular fa-clock"></i> Validation en cours
+                </div>
+            </div>
+            <div class="stat-card stat-needs">
+                <p class="stat-label">Besoins déclarés</p>
+                <h2 class="stat-value text-orange" id="stat-needs-val">{{bs_nb}}</h2>
+                <div class="stat-footer text-orange">
+                    <i class="fa-solid fa-arrow-trend-up"></i> <span id="stat-needs-approved">1</span> approuvés
+                </div>
+            </div>
+        </section>
+        <!--Je fais les stats après-->
 
-   <a href = "{%url 'add_request' user_id %}">Ajoutez une requete.</a>
+         <!-- PROJECTS SECTION -->
+        <section class="content-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Mes projets</h2>
+                    <p class="section-subtitle">Gérez et suivez l'état de vos projets</p>
+                </div>
+                <button class="btn btn-outline action-declarer-besoin">
+                    <i class="fa-solid fa-plus"></i> 
+                    <a href = "{%url 'add_project' user_id%}">Nouveau projet</a>
+                </button>
+            </div>
+            <!--Y a aussi un compte ici-->
+            <div class="tabs">
+                <button class="tab active" data-filter="all">Tous (<span id="tab-all-count">{{prj_nb}}</span>)</button>
+                <button class="tab" data-filter="approved">Approuvés (<span id="tab-approved-count">{{prj_valide}}</span>)</button>
+                <button class="tab" data-filter="pending">En attente (<span id="tab-pending-count">{{prj_enAtt}}</span>)</button>
+                <button class="tab" data-filter="revision">À corriger (<span id="tab-revision-count">{{prj_refuse}}</span>)</button>
+            </div>
 
-{%endblock%}
+            <div id="projects-container" class="cards-container">
+                <!-- Les projets seront injectés ici par JS -->
+                     <ul>
+                     {%for p in user_projects%}
+                        <div class="project-card">
+                            <div class="project-header-row">
+                                <h3 class="project-name">{{p.nom_projet}}</h3>
+                                <p>{{p.statut}}</p>
+                                <span class="badge badge-outline">{{p.domaine}}</span>
+                            </div>
+                            <p class="project-desc">{{p.description}}</p>
+                            <div class="project-footer">
+                    <button class="btn btn-outline" onclick="window.location.href='/project_details/{{p.id}}/{{user_id}}/0'"><i class="fa-regular fa-eye"></i> Voir détails</button>
+                </div> 
+                     {%endfor%}
+                     </ul>
+            </div>
+        </section>
+
+        <!-- NEEDS SECTION -->
+        <section class="content-section mt-5">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Besoins récents</h2>
+                    <p class="section-subtitle">Vos demandes de ressources et de soutien</p>
+                </div>
+                <button class="btn btn-outline action-declarer-besoin">
+                    <i class="fa-solid fa-plus"></i>
+                    <a href = "{%url 'add_request' user_id%}">Nouveau besoin</a>
+                </button>
+            </div>
+
+            <div id="needs-container" class="cards-container">
+                     {%for b in user_request%}
+                        <div class="need-card">
+                           <div class="need-title-row">
+                            <h3 class="need-name">{{b.description}}</h3>
+                            <p>{{b.statut}}</p>
+                             <span class="badge ${priorityClass}">{{b.priority}}</span>
+                         </div>
+                        <p class="need-desc">{{b.justification}}</p>
+                        <p class = "need-desc"><a href ="{%url 'modify_request' b.id user_id%}" >Modifiez...</a></p>
+                      </div>
+                        {%endfor%}
+            </div>
+        </section>
+
+
+    <footer>
+        <p>© 2026 PROJECTPATH - Plateforme de déclaration des startups</p>
+        <p>École Nationale | Innovation & Entrepreneuriat</p>
+    </footer>
+
+
+    <script type="text/javascript" src = "{% static 'js/soumission.js' %}"></script>
+</body>
+</html>

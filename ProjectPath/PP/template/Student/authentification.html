@@ -53,27 +53,22 @@
     <div class="container active" id="connexion">
         <h3>Bienvenue sur PROJECTPATH</h3>
       <p>Connectez-vous ou créez un compte pour commencer</p>
-      <div class="deux">
-        <button class="cnx active">Connexion</button>
-        <button class="insc">Inscription</button>
-      </div>
+
       
             <form action = "" method = "POST">
                 {%csrf_token%}
                 {{form.as_p}}
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
                 <input type = "submit" value = "Se connecter"/>
             </form>
 
-            {% for message in messages %}
-            
-            <div class="alert alert-success">
-                <a class="close" href="#" data-dismiss="alert">×</a>
-                {{ message }}
-            </div>
-
-             {% endfor %}
       <p class="dernier">En vous connectant, vous acceptez nos conditions d'utilisation</p>
 
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    <a href = '{%url "sign_in" %}'>Pas de compte ? s'inscrire</a>
       </div>
       
 
@@ -82,93 +77,14 @@
        <div class="container" id="inscription">
         <h3>Bienvenue sur PROJECTPATH</h3>
       <p>Connectez-vous ou créez un compte pour commencer</p>
-      <div class="deux">
-        <button class="cnx">Connexion</button>
-        <button class="insc">Inscription</button>
-      </div>
-      
-         <form action = "" method = "POST">
-            {%csrf_token%}
-            <label for="id_username">Username:</label>
 
-            <div class="helptext" id="id_username_helptext">Requis. 150 Caractère ou moins. Letteres, chiffre et @/./+/-/_ Seulement.</div>
-            <p>{{form.username.errors}}</p>
-            <input type="text" name="username"  maxlength="150" autofocus="" required="" aria-describedby="id_username_helptext" id="id_username">
-              
-            <p>
-                {{form.matricule.errors}}
-                <label for="id_matricule">Matricule:</label>
-                <input type="number" name="matricule" required="" aria-invalid="true" aria-describedby="id_matricule_error" id="id_matricule">
-            </p>
-
-            <div>
-                <label for="id_first_name">Prenom:</label>
-                <input type="text" name="first_name"  maxlength="150" id="id_first_name">
-            </div>
-
-            <div>
-                <label for="id_last_name">Nom de famille:</label>
-                <input type="text" name="last_name" maxlength="150" id="id_last_name">    
-            </div>
-
-            <div>
-                <label for="id_email">Adresse mail</label>
-                <p><p>{{form.email.errors}}</p></p>
-                <input type="email" name="email" maxlength="254" id="id_email">
-                
-            </div>
-
-            <div>
-                <label for="id_niveau_etude">Niveau d'étude:</label>
-
-                <select name="niveau_etude" id="id_niveau_etude">
-                <option value="1CP" selected="">1CP</option>
-
-                <option value="2CP">2CP</option>
-
-                <option value="1CS">1CS</option>
-
-                <option value="2CS">2CS</option>
-
-                <option value="3CS">3CS</option>
-
-                </select>
-            </div>
-
-            <div>
-                <label for="id_telephone">Telephone:</label>
-                <p>{{form.telephone.errors}}</p>
-                <input type="number" name="telephone" required="" aria-invalid="true" aria-describedby="id_telephone_error" id="id_telephone">
-                    
-            </div>
-
-            <div>
-                <label for="id_password1">Mot de passe:</label>
-            <div class="helptext" id="id_password1_helptext"><ul><li>Votre mot de passe ne doit pas être trop ressemblant au reste de vos information personnelle</li><li>Il doit contenir au moins 8 caractère</li><li>Il ne peut pas être un mot de passe communement utilisé</li><li>Il ne doit pas être entièrement numérique.</li></ul></div>
-            <p>{{form.password.errors}}</p>
-            <input type="password" name="password1" autocomplete="new-password" required="" aria-describedby="id_password1_helptext" id="id_password1">
-                
-            </div>
-
-            <div>
-                <label for="id_password2">Confimation du mot de passe:</label>
-
-            <div class="helptext" id="id_password2_helptext">Enter the same password as before, for verification.</div>
-            <p>{{form.password2.errors}}</p>
-            <input type="password" name="password2" autocomplete="new-password" required="" aria-invalid="true" aria-describedby="id_password2_helptext id_password2_error" id="id_password2">
-            </div>
-
-            <p>&nbsp;&nbsp;&nbsp;</p>
-            <p>&nbsp;&nbsp;&nbsp;</p>
-         
-            <input type = "submit" value = "S'inscrire"/>
-        </form>
+             
       
       </div>
 
     </div>
 
-    <script type="text/javascript" src = "{% static 'js/login.js' %}"></script>
-</body>
-</html>
 
+            <script type="text/javascript" src = "{% static 'js/login.js' %}"></script>
+    </body>
+    </html>

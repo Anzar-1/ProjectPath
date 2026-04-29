@@ -18,19 +18,15 @@ def logingout(request):
 def student_authentification(request):
     if request.method == "POST":
         form = authentification_Student(request.POST)
-        form_inscription = CreateAccount(request.POST)
-        if form.is_valid() or form_inscription.is_valid():
+        
+        if form.is_valid():
             if form.is_valid():
                 return authentificate_user(request, form)
-            if form_inscription.is_valid():
-                return sign_up(request, form_inscription)
         else: 
             print(form.errors)
-            print(form_inscription.errors)
     else:
         form = authentification_Student()
-        form_inscription = CreateAccount()
-    return render(request, "Student/authentification.html", {"form": form, "form_inscription": form_inscription})
+    return render(request, "Student/authentification.html", {"form": form})
 
 def authentificate_user(request,form):
     user_name = form.cleaned_data['username']
@@ -47,6 +43,15 @@ def authentificate_user(request,form):
     else:
         messages.error(request, "Nom d'utilisateur ou mot de passe incorects.")
     return redirect("authentification")
+
+def sign_in(request):
+    if request.method == "POST":
+        form = CreateAccount(request.POST)
+        if form.is_valid():
+            return sign_up(request, form)
+    else:
+        form = CreateAccount()
+    return render(request, "Student/sign_in.html", {"form": form})
 
 def sign_up(request, form):
     user = form.save()
@@ -73,7 +78,7 @@ def modify_user_account(request, user_id):
             return redirect("user_details", user.id)
     else:
         form = ModifyStudentAccount(instance= user)
-    return render(request, "Student/modify_user_account.html", {"form": form, "user": user})
+    return render(request, "Student/modify_user_account.html", {"form": form, "user": user, "user_id": user_id})
 #ça change pas le mot de passe.
 
 

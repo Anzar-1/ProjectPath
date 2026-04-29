@@ -17,18 +17,12 @@ class CustomFKF(forms.ModelChoiceField):
 class CreateProject(forms.ModelForm):
     class Meta:
         model = projet
-        exclude =  ('statut',)
-    participants = CustomFKF(
-        queryset = CompteEtudiant.objects.all()
-     )
+        exclude =  ('statut','participants',)
 
 class requestNeed(forms.ModelForm):
     class Meta:
         model = Besoin
-        exclude =  ('statut',)
-    participant = CustomFKF(
-        queryset = CompteEtudiant.objects.all()
-    )
+        exclude =  ('statut',"participant")
 
 class CreateAccount(UserCreationForm):
     class Meta:
@@ -62,4 +56,5 @@ class contact_form(forms.ModelForm):
 class message_form(forms.ModelForm):
     class Meta:
         model = message
-        exclude = ('vu',)
+        exclude = ('vu','emetteur', 'receveur', "project", "request")
+

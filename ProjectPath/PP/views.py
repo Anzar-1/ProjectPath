@@ -21,20 +21,26 @@ def add_project(request,user_id):
     if request.method =="POST":
         form = CreateProject(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            p  = form.save()
+            user = CompteEtudiant.objects.get(id = user_id)
+            p.participants = user
+            p.save()
             return redirect("home", user_id)
     else:
         form = CreateProject()
     return render(request, "Student/add_project.html", {'form' : form ,"user_id": user_id})
 
+from PP.form import message_form
 @login_required
 def project_details(request, project_id,user_id,user_type):
     if request.user.id != user_id:
         return redirect("logout")
     projett =  projet.objects.get(id = project_id)
+    user = CompteEtudiant.objects.get(id = user_id)
     messages = message.objects.filter(project = projett)
     message_nbr = messages.count()
-    etudiants = projett.get_participant()
+    etudiants = projett.participants
+    besoin = Besoin.objects.filter(projet_concerne = projett.nom_projet)
     if user_type == 1:
         projett.statut = "EnAttente"
         projett.save()
@@ -42,10 +48,28 @@ def project_details(request, project_id,user_id,user_type):
             return accept_refuse_form(request, projett,user_id)
         return render(request, "Admin/project_details.html", {"p" : projett , "etudiants" : etudiants ,
                                                     "user_id": user_id, "message" : messages,"message_nb":message_nbr ,
-                                                    "user_type":user_type})
+                                                    "user_type":user_type, "besoin": besoin})
     elif user_type == 0:
+        document_manquant = False
+        if projett.statut == "DocumentManquant":
+            document_manquant = True
+        
+        if request.method == "POST":
+            form = message_form(request.POST)
+            if form.is_valid():
+                m = form.save()
+                m.project = projett
+                m.emetteur = user
+                m.save()
+                return redirect("project_details", project_id, user_id, 0)
+        else:
+            form = message_form()
         return render(request, "Student/project_details.html", {"p" : projett ,"user_id": user_id, "message" : messages, 
-                                                    "user_type":user_type, "etudiants": etudiants})
+                                                    "user_type":user_type, "etudiants": etudiants, 
+                                                    "document_manquant": document_manquant, "form": form, "besoin": besoin})
+
+
+
 
 @login_required
 def accept_refuse_form(request, projett, user_id):
@@ -77,7 +101,7 @@ def modify_project(request,project_id,user_id):
             p = form.save()
             p.statut = "NonVue"
             p.save()
-            return redirect("project_details",project_id, user_id)
+            return redirect("project_details",project_id, user_id,0)
     else:
         form = CreateProject(instance=p)
     return render(request,"Student/add_project.html", {"form" : form ,"user_id": user_id})
@@ -94,8 +118,24 @@ def home(request,user_id):
     user = CompteEtudiant.objects.get(id = user_id) 
     user_projects = user.projet_set.all()
     user_request = user.besoin_set.all()
+
+    project_nbr = user_projects.count()
+    prj_enAtt = projet.objects.filter(statut = "EnAttente",  participants = user).count()
+    prj_valide = projet.objects.filter(statut = "Accepte",  participants = user).count()
+    prj_refuse = projet.objects.filter(statut = "DocumentManquant",  participants = user).count()
+    
+    besoin_nbr = user_request.count()
+    bs_enAtt = Besoin.objects.filter(statut = "EnAttente", participant = user).count()
+    bs_valide = Besoin.objects.filter(statut = "Accepte", participant = user).count()
+    bs_refuse = Besoin.objects.filter(statut = "DocumentManquant",  participant = user).count()
+    
+
     return render(request,"Student/home.html",{"user" : user, "user_projects": user_projects,
-                                               "user_request":user_request ,"user_id": user_id})
+                                               "user_request":user_request ,"user_id": user_id,
+                                               "prj_nb": project_nbr, "prj_enAtt": prj_enAtt,
+                                               "prj_valide": prj_valide, "prj_refuse": prj_refuse,
+                                                "bs_nb": besoin_nbr, "bs_enAtt": bs_enAtt, "bs_valide": bs_valide,
+                                                "bs_refuse": bs_refuse})
 
 @login_required
 def request_details(request,b_id,user_id,user_type):
@@ -121,11 +161,16 @@ def request_details(request,b_id,user_id,user_type):
 def add_request(request, user_id):
     if request.user.id != user_id:
         return redirect("logout")
-    if request.method == "POST":
+    if request.method =="POST":
         form = requestNeed(request.POST, request.FILES)
         if form.is_valid():
-            b = form.save()
-            return redirect("request_details",b.id, user_id)
+            p  = form.save()
+            user = CompteEtudiant.objects.get(id = user_id)
+            p.participant = user
+            p.save()
+            return redirect("home", user_id)
+        else:
+            print(form.errors)
     else:
         form = requestNeed()
     return render(request, "Student/add_besoin.html", {"form" : form ,"user_id": user_id})
@@ -141,7 +186,7 @@ def modify_request(request, b_id,user_id):
             b = form.save()
             b.statut = "NonVue"
             b.save()
-            return redirect("request_details",b_id, user_id)
+            return redirect("home",user_id)
     else:
         form = requestNeed(instance= besoin)
     return render(request, "Student/add_besoin.html", {"form" : form,"user_id": user_id})

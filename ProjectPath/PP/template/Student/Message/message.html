@@ -20,35 +20,33 @@
                 <p>Innovation Hub</p>
             </div>
         </div>
-        <div id="dash" class="same" data-page="dashboard.html">
+        <div id="dash" class="same" data-page="{%url 'home' user_id%}">
             <i class="fa-solid fa-house-user"></i>
             <p>dashboard</p>
         </div>
 
-        <div class="same" id="soumettre">
+        <div class="same" id="soumettre" data-page="{%url 'add_project' user_id%}">
             <i class="fa-solid fa-folder-plus"></i>
-            <a href = "{%url 'add_project' user_id%}">Soumettre un projet</a>
+            <p>Soumettre un projet</p>
         </div>
-        <div class="same" id="besoin">
+        <div class="same" id="besoin" data-page="{%url 'add_request' user_id%}">
             <i class="fa-regular fa-square-plus"></i>
-            <a href = "{%url 'add_request' user_id%}">Déclarer un besoin</a>
+            <p>Déclarer un besoin</p>
         </div>
-        <div class="same" id="message">
+        <div class="same" id="message" data-page = "{%url 'message_etudiant' user_id%}">
             <i class="fa-regular fa-message"></i>
-            <a href = "{%url 'message_etudiant' user_id%}">message</a>
+            <p href = "{%url 'message_etudiant' user_id%}">message</p>
         </div>
-        <div class="same" id="profil">
+        <div class="same" id="profil" data-page="{%url 'user_details' user_id%}">
             <i class="fa-regular fa-user"></i>
-            <a href = "{%url 'user_details' user_id%}">Profil</a>
-        </div>
-        <div class="notification" >
-            <i class="fa-regular fa-bell"></i>
+            <p>Profil</p>
 
-        </div>
         <div class="compte">
-            <span id="s1">A</span>
             <span id="s2"> {{user.nom}} {{user.prenom}}</span>
+            <a href="{%url 'logout'%}">Se déconnecter</a>
         </div>
+
+        
     </nav>
          <div class="info">
         <h3>Votre boite d'envois</h3>

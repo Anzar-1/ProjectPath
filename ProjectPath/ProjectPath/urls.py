@@ -45,6 +45,7 @@ urlpatterns = [
     path("user/update/<int:user_id>", views_user.modify_user_account, name = "modify_user_account"),
     path("home/<int:user_id>", views.home, name= "home"),
     path("authentification/", views_user.student_authentification, name = "authentification"),
+    path("sign_in/",views_user.sign_in, name = 'sign_in'),
 
     path("create_admin_account/", views_user.create_staff_account, name="create_staff_account"),
     path("staff/<int:user_id>", views_user.staff_details, name="staff_details"),

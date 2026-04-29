@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
+from django.core.validators import FileExtensionValidator
 
 def Validate_email_adress(value):
     if not value.endswith('@estin.dz'):
@@ -14,12 +15,16 @@ def Validate_telephone(value):
     if value >=1000000000 or value <= 99999999:
         raise ValidationError("Le numero de telephone doit contenir au moins 9 chiffre (sans compte le 0)")
 
+import os
+
 def Validate_fichier(value):
-    if not value.endswith(".pdf"):
+    ext = os.path.splitext(value.name)[1]  # gets '.pdf'
+    valid_extensions = ['.pdf', '.docx', '.txt']
+    if not ext.lower() in valid_extensions:
         raise ValidationError("Le fichier dois être un PDF.")
 
 class CompteEtudiant(AbstractUser, PermissionsMixin):
-    matricule = models.fields.IntegerField(unique=True, validators= [Validate_matricule], default = "121241212")
+    matricule = models.fields.IntegerField(unique=True, validators= [Validate_matricule], default = "123489357")
     class Niveau(models.TextChoices):
         one = "1CP", "1CP"
         two = "2CP", "2CP"
@@ -72,8 +77,14 @@ class Besoin(models.Model):
 
 
     typeDeBesoin = models.fields.CharField(max_length = 20 , choices = TypeDeBesoin.choices, default = "MATERIEL") #si ça se trouve tu dois choisir parmi une liste
+    class priorite(models.TextChoices):
+        Basse = "Basse"
+        Moyenne = "Moyenne"
+        Eleve = "Elevee"
+
+    priority = models.fields.CharField(max_length = 50, choices =priorite.choices, default = "Elevee")
     description = models.fields.CharField(max_length = 1000)
-    participant = models.ForeignKey(CompteEtudiant, on_delete = models.CASCADE)
+    participant = models.ForeignKey(CompteEtudiant, on_delete = models.CASCADE, null = True, blank = True)
     justification = models.fields.CharField(max_length=1000)
     file_path = models.FileField(upload_to="files/", null = True ,blank = True ,verbose_name="", validators=[Validate_fichier])
     statut = models.fields.CharField(max_length = 16, choices = Statut.choices, default = "NonVue")
@@ -96,17 +107,17 @@ class projet(models.Model):
     objectif = models.CharField(max_length=200)
     file_path = models.FileField(upload_to="files/", null = False,verbose_name="",validators=[Validate_fichier])
     statut = models.fields.CharField(max_length = 16, choices = Statut.choices, default = "NonVue")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    def get_participant(self):
-        return self.participants.all()
 
-class message(models.Model):#Message admin->etudiant
-    objet = models.fields.CharField(max_length=200)
+class message(models.Model):
     contenu = models.fields.CharField(max_length=1500)
-    emetteur = models.ForeignKey(CompteAdmin, on_delete= models.SET_NULL, null= True)
-    receveur = models.ManyToManyField(CompteEtudiant)
+    emetteur = models.ForeignKey(CompteEtudiant, on_delete= models.SET_NULL, null= True, related_name='messages_envoyes')
+    receveur = models.ForeignKey(CompteEtudiant, on_delete= models.SET_NULL, null= True, related_name='messages_recu')
     project = models.ForeignKey(projet, on_delete = models.CASCADE, null = True, blank = True)
-    request = models.ForeignKey(Besoin, on_delete= models.CASCADE, null =  True, blank = True)#J'ai pas encore migrer
+    request = models.ForeignKey(Besoin, on_delete= models.CASCADE, null =  True, blank = True)
+    created_at = models.DateTimeField(auto_now_add=True)
     vu = models.fields.BooleanField(default = False)
 
 class contact(models.Model): #Message etudiant ->admin
@@ -115,4 +126,4 @@ class contact(models.Model): #Message etudiant ->admin
     email = models.fields.EmailField()
     objet = models.fields.CharField(max_length =100)
     message = models.fields.CharField(max_length= 1000)
-
+    created_at = models.DateTimeField(auto_now_add=True)
