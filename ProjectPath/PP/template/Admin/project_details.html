@@ -1,61 +1,188 @@
 {%load static%}
+{%load static%}
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <title>PROJECTPATH - Admin Dashboard</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}"">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
 </head>
-<body>
+ 
+  <!-- NAVIGATION BAR -->
   <nav class="navbar">
-    <div class="logo">PROJECTPATH</div>
-    <div class="nav-links">
-      <a href="{%url 'Staff_DashBoard' user_id%}">Dashboard</a>
-      <a href="#" onclick="navigate('messages')">Messages</a>
+    <div class="navbar-container">
+      <!-- Left: Logo -->
+      <div class="navbar-left">
+        <div class="logo">
+          <div class="logo-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2cwbvdxxc0.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <div class="logo-text">
+            <div class="logo-title">
+              <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba396oyup91c.png" alt="PROJECTPATH" style="height: 20px; object-fit: contain;">
+            </div>
+            <div class="logo-subtitle">Innovation Hub</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: Navigation Menu -->
+      <div class="navbar-center">
+        <button class="nav-link active">
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2gkqu22o00.png" alt="Dashboard" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+          <a href=" {%url 'Staff_DashBoard' user_id%}">Dashboard</a> 
+        </button>
+        <button class="nav-link">
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2klfrnfchs.png" alt="Messages" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+        <a href=" {%url 'message_staff' user_id%}">Message</a> 
+        </button>
+        <button class="nav-link" > <!--Navigation ici-->
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba3ap29ifi80.png" alt="Profil" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+          <a href=" {%url 'staff_details' user_id%}">Profil</a>        
+        </button>
+      </div>
+
+      <!-- Right: Profile -->
+      <div class="navbar-right">
+        <div class="profile-info">
+          <div class="profile-avatar">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba442mtvv5ds.png" alt="Profile" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <span class="profile-name">{{user.username}} | 
+          <a href ="{%url 'logout'%}">Se déconnecter</a></span>
+        </div>
+      </div>
     </div>
   </nav>
 
-    <h2>{{p.nom_projet}}</h2>
-      <p>{{p.description}}</p>
+
+        <div class="detail-layout">
         
-      <!--Jai oublier ce que c'est-->
-      <!--<span class="status ${projet.statut.replace(" ", "")}">${projet.statut}</span>
-      <div class="actions">
-        <button class="approve" onclick="updateStatusDetail(${id}, 'validé')">Valider</button>
-        <button class="reject" onclick="updateStatusDetail(${id}, 'refusé')">Refuser</button>
-      </div>-->
+        <!-- Main Content -->
+        <div class="detail-main">
 
-    <h3>Problème résolu</h3>
-        <p>{{p.probleme_resolu}}</p>
-    <h3>Objectifs</h3>
-        <p>{{p.objectif}}</p>
-    <h3>Équipe</h3>
-        {% for etudiant in etudiants%}
-            <li>{{etudiant.nom}} {{etudiant.prenom}}</li>
-        {%endfor%}
-    <h3>Document</h3>
-        <a href = "/media/{{p.file_path}}" >{{p.file_path}}</a>
-    <h3>Commentaires & échanges</h3>
-        {%if message_nb %}
-            <ul>
-            {%for m in message%}
-                <li><b>{{m.objet}}</b></li>
-                <p>{{m.contenu}}</p>
-            {%endfor%}
-            </ul>
-        {%else%}
-            <p>Aucun commentaire</p>
-        {%endif%}
+          <!-- Tab Content: Overview -->
+          <div id="tab-overview" class="tab-content active">
+            <h2>{{p.nom_projet}}</h2>
+            <div class="detail-section">
+              <h3>Problème résolu</h3>
+              <p id="project-problem">{{p.probleme_resolu}}.</p>
+            </div>
+
+            <div class="detail-section">
+              <h3>Objectifs</h3>
+              <p id="project-objectives">{{p.objectif}}.</p>
+            </div>
+
+            <div class="detail-section">
+              <h3>Soumetteur</h3>
+              <p>{{p.participants.last_name}} {{p.participants.first_name}}</p>
+            </div>
+
+            <div class="detail-section">
+                    <h3>Document</h3>
+                    <a href = "/media/{{p.file_path}}" >{{p.file_path}}</a>
+            </div>
+
+            {%if besoin%}
+            <div class="'detail-section">
+                <h3>Besoin lié</h3>
+                    {%for need in besoin%}
+                    <div class="need-card">
+                    <div class="need-header">
+                        <div>
+                        <div class="need-type">{{need.typeDeBesoin}}</div>
+                        <div class="need-badges">
+                            <span class="badge ${need.fields.statut === 'EnAttente' ? 'pending' : need.statut === 'Accepte' ? 'approved' : 'rejected'}">
+                            {{need.statut}}
+                            </span>
+                            <span class="priority-badge ${need.fields.priority.includes('Elevee') ? 'high' : need.fields.priority.includes('Moyenne') ? 'medium' : 'low'}">
+                            {{need.fields.priority}}
+                            </span>
+                        </div>
+                        </div>
+                    </div>
+                    <p class="need-description"><strong>{{need.description}}</strong></p>
+                    <p class="need-description"><strong>Justification:</strong> {{need.justification}}</p>
+
+                    <form method="POST">
+                    {%csrf_token%}
+                    <div class="need-actions">
+                    <input type="hidden" name="id" value="{{ need.id }}">
+                    <button type = "submit" name="action" class="btn btn-approve" value = "approve_need">✅ Approuver</button>
+                    <button class="btn btn-reject" name="action" type = "submit" value ="reject_need"> ❌ Refuser </button> 
+                    </div>
+                    </form>
+                    {%endfor%}
+            </div>
+            {%endif%}
+
+            <!-- Comments Section -->
+            <div class="detail-section">
+              <h3>Commentaires & Échanges</h3>
+              <p class="section-subtitle">Communication avec l'administration</p>
+              
+
+            {%if message_nb %}
+                {%for m in message%}
+                    <div class="comment">
+                    <div class="comment-author">{{m.emetteur.username}}</div>
+                    <div class="comment-text">{{m.contenu}}</div>
+                    <div class="comment-date">{{m.created_at}}</div>
+                    </div>
+                {%endfor%}
+            {%else%}
+                <div id="comments-list" class="comments-list">
+                <div class="empty-state">Aucun commentaire</div>
+              </div>
+            {%endif%}
 
 
-    <!--Je peux surement utiliser ce formulaire pour creer des messages plutôt.-->
-    <form action = "" method = "POST">
-        {%csrf_token%}
-        <input type = "submit" name="accept" value = "Accepter"/>
-        <input type = "submit" name = "refuse" value = "Refuser"/>
-        <input type = "submit" name = "document_manquant" value = "Document manquant"/>
-    </form>
+              <form method = "POST">
+                {%csrf_token%}
+              <div class="comment-form">
+                {{form.contenu}}
+                <button class="btn-primary" name="action" type = 'submit' value = "send_message">✈️ Envoyer</button>
+  
+              </div>
+              </form>
+            </div>
+          </div>
+
+
+        <!-- Sidebar -->
+        <div class="detail-sidebar">
+          
+          <!-- Status Card -->
+          <div class="sidebar-card">
+            <h3>Statut du projet</h3>
+            <div id="project-status-badge"></div>
+            <p class="sidebar-text">{{p.statut}}</p>
+          </div>
+
+          <form method="POST">
+            {%csrf_token%}
+                    <div class="need-actions">
+                    <input type="hidden" name="id" value="{{ p.id }}">
+                    <button type = "submit" name="action" class="btn btn-approve" value ="approve_project">
+                        Approuvé</button>
+                    <button type = "submit" name="action" class = "btn btn-reject" value = "missing_doc">
+                        Document Manquant</button>
+                    <button class="btn btn-reject" name="action" type = "submit" value ="reject_project">
+                        Refuser</button>
+                    </div>
+            </form>
+
+        </div>
+      </div>
+
     
     <script src="{% static 'js/script.js' %}"></script>
 </body>

@@ -39,6 +39,7 @@ urlpatterns = [
     path("request_details/update/<int:b_id>/<int:user_id>", views.modify_request, name = "modify_request"),
 
     path("message/<int:user_id>",views_message.message_student , name="message_etudiant"),
+    path("message_staff/<int:user_id>", views_user.message_staff, name = "message_staff"),
     path("contact_us/<int:user_id>", views_message.contact_us, name = "contact_us"),
 
     path("user/<int:user_id>", views_user.user_details, name="user_details"),
@@ -49,6 +50,5 @@ urlpatterns = [
 
     path("create_admin_account/", views_user.create_staff_account, name="create_staff_account"),
     path("staff/<int:user_id>", views_user.staff_details, name="staff_details"),
-    path("staff/update/<int:user_id>", views_user.modify_staff_account, name="modify_staff_account"),
  
 ]+static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

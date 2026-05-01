@@ -209,3 +209,28 @@ nav .same {
 .hidden {
     display: none;
 }
+
+.msg-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.msg-item:hover {
+    background: #f5f7fa;
+}
+
+.msg-name {
+    font-weight: 600;
+    margin: 0;
+}
+
+.msg-preview {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.msg-date {
+    font-size: 0.8em;
+    color: #999;
+}

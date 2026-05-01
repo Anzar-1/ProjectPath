@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 from PP.models import projet
 from PP.form import CreateProject
@@ -42,13 +42,31 @@ def project_details(request, project_id,user_id,user_type):
     etudiants = projett.participants
     besoin = Besoin.objects.filter(projet_concerne = projett.nom_projet)
     if user_type == 1:
-        projett.statut = "EnAttente"
-        projett.save()
+        if projett.statut == "NonVue":
+            projett.statut = "EnAttente"
+            projett.save()
         if request.method == "POST":
-            return accept_refuse_form(request, projett,user_id)
+            action = request.POST.get("action")
+            obj_id = request.POST.get("id")
+            if action == "send_message":
+                form = message_form(request.POST)
+                if form.is_valid():
+                    m = form.save()
+                    m.project = projett
+                    m.emetteur = user
+                    m.receveur = projett.participants
+                    m.save()
+                    return redirect("project_details", project_id, user_id, 1)
+                else:
+                    print(form.errors)
+            else:
+                return accept_refuse_form(action, obj_id, project_id,user_id)
+        else:
+            form = message_form()
+
         return render(request, "Admin/project_details.html", {"p" : projett , "etudiants" : etudiants ,
                                                     "user_id": user_id, "message" : messages,"message_nb":message_nbr ,
-                                                    "user_type":user_type, "besoin": besoin})
+                                                    "user_type":user_type, "besoin": besoin, "user": user, "form": form})
     elif user_type == 0:
         document_manquant = False
         if projett.statut == "DocumentManquant":
@@ -69,26 +87,32 @@ def project_details(request, project_id,user_id,user_type):
                                                     "document_manquant": document_manquant, "form": form, "besoin": besoin})
 
 
+def accept_refuse_form(action,obj_id,project_id, user_id):
+    if action == "approve_need":
+        need = get_object_or_404(Besoin, id=obj_id)
+        need.statut = "Accepte"
+        need.save()
 
+    elif action == "reject_need":
+        need = get_object_or_404(Besoin, id=obj_id)
+        need.statut = "Refuse"
+        need.save()
 
-@login_required
-def accept_refuse_form(request, projett, user_id):
-    if request.user.id != user_id:
-        return redirect("logout")
-    if "accept" in request.POST:
-        projett.statut = "Accepte"
-        projett.save()
+    elif action == "approve_project":
+        project = get_object_or_404(projet, id=project_id)
+        project.statut = "Accepte"
+        project.save()
 
-    elif "refuse" in request.POST:
-       projett.statut = "Refuse"
-       projett.save()
-      
-    elif "document_manquant" in request.POST:
-        projett.statut = "DocumentManquant"
-        projett.save()
+    elif action == "reject_project":
+        project = get_object_or_404(projet, id=project_id)
+        project.statut = "Refuse"
+        project.save()
 
-    thingie_id = projett.id
-    return redirect("commentaire",thingie_id,user_id)
+    elif action == "missing_doc":
+        project = get_object_or_404(projet, id=project_id)
+        project.statut = "DocumentManquant"
+        project.save()
+    return redirect("project_details", project_id, user_id, 1)
 
 @login_required
 def modify_project(request,project_id,user_id):

@@ -90,6 +90,8 @@ from PP.models import Besoin
 def is_staff_user(user):
     return user.is_staff
 
+from django.core.serializers import serialize
+
 @login_required
 @user_passes_test(is_staff_user)
 def staff_Dashboard(request, user_id):
@@ -98,21 +100,55 @@ def staff_Dashboard(request, user_id):
         return redirect("logout")
 
     project = projet.objects.all()
-    project_nbr = project.count()
-    prj_enAtt = projet.objects.filter(statut = "EnAttente").count()
-    prj_valide = projet.objects.filter(statut = "Accepte").count()
-    prj_refuse = projet.objects.filter(statut = "Refuse").count()
-    
+    prj_nbr = project.count()
+    prj_enAtt = projet.objects.filter(statut__in=["EnAttente", "NonVue"]).count()
+    prj_accepte =projet.objects.filter(statut = "Accepte").count()
+    bs_enAtt = Besoin.objects.filter(statut__in=["EnAttente", "NonVue"]).count()
+    project = serialize("json", project)
+
+    user = CompteEtudiant.objects.get(id = user_id)
+
     besoin = Besoin.objects.all()
-    besoin_nbr = besoin.count()
-    bs_enAtt = Besoin.objects.filter(statut = "EnAttente").count()
-    bs_valide = Besoin.objects.filter(statut = "Accepte").count()
-    bs_refuse = Besoin.objects.filter(statut = "Refuse").count()
+    bs_nbr = besoin.count()
+    besoin = serialize("json",besoin)
+
 
     return render(request, "Admin/dashboard.html",{"user_id": user_id, "project": project, "besoin": besoin,
-                                                    "project_nbr": project_nbr, "prj_enAtt": prj_enAtt, " prj_valide": prj_valide,
-                                                    "prj_refuse": prj_refuse ,"besoin_nbr": besoin_nbr, "bs_enAtt":bs_enAtt ,
-                                                    "bs_valide":bs_valide, "bs_refuse": bs_refuse })
+                                                    "prj_enAtt": prj_enAtt, "prj_accepte": prj_accepte,
+                                                    "bs_enAtt":bs_enAtt, "prj_nbr":prj_nbr, "bs_nbr":bs_nbr,
+                                                    "user": user})
+
+from PP.models import message
+from json import dumps
+
+@login_required
+@user_passes_test(is_staff_user)
+def message_staff(request, user_id):
+    if request.user.id != user_id:
+        return redirect("logout")
+    
+    user = CompteEtudiant.objects.get(id = user_id)
+    mes = message.objects.all()
+    mes_envoye = message.objects.filter(emetteur = user).count()
+    mes_recu = mes.count() - mes_envoye
+    mes_total = mes.count()
+    mes = [
+        {
+            "pk": m.pk,
+            "fields" : {
+                "contenu": m.contenu,
+                "emetteur": m.emetteur.username,
+                "receveur": m.receveur.username if m.receveur else None,
+                "projet": m.project.nom_projet,
+                "created_at": m.created_at
+            }
+        }
+        for m in mes
+    ]
+
+    
+    return render(request, "Admin/message.html",{"user_id": user_id, "user": user, "message": mes,
+                                                "mes_envoye": mes_envoye, "mes_recu": mes_recu, "mes": mes_total})
 
 def create_staff_account(request):
     if request.method == "POST":
@@ -128,31 +164,24 @@ def create_staff_account(request):
         form = CreateAccount()
     return render(request, "Admin/create_account.html", {"form": form})
 
+from PP.form import ModifyAdminAccount
+
 @login_required
 @user_passes_test(is_staff_user)    
 def staff_details(request, user_id):
     if request.user.id != user_id:
         return redirect("logout")
     user = CompteEtudiant.objects.get(id = user_id)
-    return render(request, "Admin/user.html", {"user": user}) 
-    
-@login_required
-@user_passes_test(is_staff_user)
-def modify_staff_account(request, user_id):
-    if request.user.id != user_id:
-        return redirect("logout")
-    user = CompteEtudiant.objects.get(id = user_id)
     if request.method == "POST":
-        form = CreateAccount(request.POST, instance = user)
+        form = ModifyAdminAccount(request.POST, instance = user)
         if form.is_valid():
             user = form.save()
-            return redirect("staff_details", user.id)
+            return redirect("user_details", user.id)
     else:
-        form = CreateAccount(instance= user)
-    return render(request, "Admin/modify_account.html", {"form": form}) 
-
+        form = ModifyAdminAccount(instance= user)
+    return render(request, "Admin/user.html", {"user": user, "user_id": user_id, "form": form}) 
+    
 #Other stuff
-
 
 def index(request):
     return render(request, "Student/index.html")

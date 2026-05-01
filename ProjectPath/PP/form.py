@@ -36,6 +36,11 @@ class authentification_Student(forms.Form):
 class ModifyStudentAccount(forms.ModelForm):
     class Meta:
         model = get_user_model()
+        fields = ['username', 'first_name' ,'last_name', 'email' ,'telephone']
+
+class ModifyAdminAccount(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
         fields = ['username', 'matricule', 'first_name' ,'last_name', 'email','niveau_etude' ,'telephone']
 
 class CreateAdmin(forms.ModelForm):
