@@ -92,26 +92,37 @@ def accept_refuse_form(action,obj_id,project_id, user_id):
         need = get_object_or_404(Besoin, id=obj_id)
         need.statut = "Accepte"
         need.save()
+        m = message.objects.create(contenu = "Un des besoin rataché au projet "+ need.projet_concerne +" a été accepté",
+                                   receveur = need.participant)
 
     elif action == "reject_need":
         need = get_object_or_404(Besoin, id=obj_id)
         need.statut = "Refuse"
         need.save()
+        m = message.objects.create(contenu = "Un des besoin rataché au projet "+ need.projet_concerne +" a été refusé",
+                                   receveur = need.participant)
 
     elif action == "approve_project":
         project = get_object_or_404(projet, id=project_id)
         project.statut = "Accepte"
         project.save()
+        m = message.objects.create(contenu = "Le projet "+ project.nom_projet +" a été accepté.",
+                                   receveur = project.participants)
 
     elif action == "reject_project":
         project = get_object_or_404(projet, id=project_id)
         project.statut = "Refuse"
         project.save()
+        m = message.objects.create(contenu = "Le projet "+ project.nom_projet +" a été refusé.",
+                                   receveur = project.participants)
 
     elif action == "missing_doc":
         project = get_object_or_404(projet, id=project_id)
         project.statut = "DocumentManquant"
         project.save()
+        m = message.objects.create(contenu = "Le projet "+ project.nom_projet +" a un document manquant.",
+                                   receveur = project.participants)
+        
     return redirect("project_details", project_id, user_id, 1)
 
 @login_required
