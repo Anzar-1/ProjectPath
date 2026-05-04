@@ -46,15 +46,6 @@ class CompteEtudiant(AbstractUser, PermissionsMixin):
         return([self.matricule,self.niveau_etude, self.last_name, self.first_name, 
                 self.password, self.email, self.telephone, self.username])
 
-class CompteAdmin(models.Model):
-    nom = models.fields.CharField(max_length = 100)
-    prenom = models.fields.CharField(max_length= 100)
-    mot_de_passe = models.fields.CharField()
-    adresse_mail = models.fields.EmailField(validators=[Validate_email_adress])
-    telephone = models.fields.IntegerField()
-
-    def get_fields(self):
-        return([self.nom, self.prenom, self.mot_de_passe, self.adresse_mail, self.telephone])
 
 class Statut(models.TextChoices):
     NON_VUE = "NonVue"
@@ -65,7 +56,7 @@ class Statut(models.TextChoices):
 
 class Besoin(models.Model):
 
-    projet_concerne = models.fields.CharField(max_length=20)
+    projet_concerne = models.fields.CharField(max_length=100)
     class TypeDeBesoin(models.TextChoices):
         Materiel = "Materiel" ,'Materiel'
         Budget = "Budget", 'Budget'
@@ -120,10 +111,3 @@ class message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     vu = models.fields.BooleanField(default = False)
 
-class contact(models.Model): #Message etudiant ->admin
-    nom = models.fields.CharField(max_length=50)
-    prenom = models.fields.CharField(max_length=50)
-    email = models.fields.EmailField()
-    objet = models.fields.CharField(max_length =100)
-    message = models.fields.CharField(max_length= 1000)
-    created_at = models.DateTimeField(auto_now_add=True)

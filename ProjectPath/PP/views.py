@@ -177,25 +177,6 @@ def home(request,user_id):
                                                 "bs_nb": besoin_nbr, "bs_enAtt": bs_enAtt, "bs_valide": bs_valide,
                                                 "bs_refuse": bs_refuse})
 
-@login_required
-def request_details(request,b_id,user_id,user_type):
-    if request.user.id != user_id:
-        return redirect("logout")
-    b= Besoin.objects.get(id= b_id)
-    messages = message.objects.filter(request = b)
-    message_nbr = messages.count()
-    etudiants = b.participant
-    if user_type == 1:
-        b.statut = "EnAttente"
-        b.save()
-        if request.method == "POST":
-            accept_refuse_form(request, b)
-        return render(request, "Admin/besoin_details.html", {"b" : b , "etudiants" : etudiants ,
-                                                    "user_id": user_id, "message" : messages, "messag_nb":message_nbr,
-                                                    "user_type":user_type})
-    elif user_type == 0:
-        return render(request, "Student/project_details.html", {"b" : b ,"user_id": user_id, "message" : messages, 
-                                                    "user_type":user_type, "etudiants": etudiants})
 
 @login_required
 def add_request(request, user_id):

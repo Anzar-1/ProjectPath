@@ -28,19 +28,16 @@ urlpatterns = [
     path("logout/", views_user.logingout, name="logout"),
 
     path('staff_dashboard/<int:user_id>', views_user.staff_Dashboard, name = "Staff_DashBoard"),
-    path('details/<int:thingie_id>/<int:user_id>/sendComment', views_message.create_commentaire,name="commentaire"),
 
     path('add_project/<int:user_id>', views.add_project, name = "add_project"),
     path("project_details/<int:project_id>/<int:user_id>/<int:user_type>", views.project_details, name="project_details"),
     path("project_details/update/<int:project_id>/<int:user_id>", views.modify_project, name="modify_Project"),
 
-    path("request_details/<int:b_id>/<int:user_id>/<int:user_type>",views.request_details, name= 'request_details'),
     path("add_request/<int:user_id>", views.add_request, name = "add_request"),
     path("request_details/update/<int:b_id>/<int:user_id>", views.modify_request, name = "modify_request"),
 
     path("message/<int:user_id>",views_message.message_student , name="message_etudiant"),
     path("message_staff/<int:user_id>", views_user.message_staff, name = "message_staff"),
-    path("contact_us/<int:user_id>", views_message.contact_us, name = "contact_us"),
 
     path("user/<int:user_id>", views_user.user_details, name="user_details"),
     path("user/update/<int:user_id>", views_user.modify_user_account, name = "modify_user_account"),
@@ -48,7 +45,6 @@ urlpatterns = [
     path("authentification/", views_user.student_authentification, name = "authentification"),
     path("sign_in/",views_user.sign_in, name = 'sign_in'),
 
-    path("create_admin_account/", views_user.create_staff_account, name="create_staff_account"),
     path("staff/<int:user_id>", views_user.staff_details, name="staff_details"),
  
 ]+static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

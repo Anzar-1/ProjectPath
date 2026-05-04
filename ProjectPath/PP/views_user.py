@@ -145,24 +145,10 @@ def message_staff(request, user_id):
         }
         for m in mes
     ]
-    print(mes)
     
     return render(request, "Admin/message.html",{"user_id": user_id, "user": user, "message": mes,
                                                 "mes_envoye": mes_envoye, "mes_recu": mes_recu, "mes": mes_total})
 
-def create_staff_account(request):
-    if request.method == "POST":
-        form = CreateAccount(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.is_staff = True
-            user.save()
-            user_id = user.id
-            login(request, user)
-            return redirect("Staff_DashBoard", user_id)
-    else:
-        form = CreateAccount()
-    return render(request, "Admin/create_account.html", {"form": form})
 
 from PP.form import ModifyAdminAccount
 
