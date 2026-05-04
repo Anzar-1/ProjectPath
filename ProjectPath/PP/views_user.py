@@ -129,8 +129,8 @@ def message_staff(request, user_id):
     
     user = CompteEtudiant.objects.get(id = user_id)
     mes = message.objects.all()
-    mes_envoye = message.objects.filter(emetteur = user).count()
-    mes_recu = mes.count() - mes_envoye
+    mes_envoye = mes.filter(emetteur = user).count()
+    mes_recu = mes.filter(receveur__isnull = True).count()
     mes_total = mes.count()
     mes = [
         {

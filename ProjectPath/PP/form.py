@@ -24,6 +24,14 @@ class requestNeed(forms.ModelForm):
         model = Besoin
         exclude =  ('statut',"participant")
 
+    def clean_projet_concerne(self):
+        project = self.cleaned_data.get('projet_concerne')
+
+        if not projet.objects.filter(nom_projet=project).exists():
+            raise forms.ValidationError("Ce projet n'existe pas.")
+
+        return projet
+
 class CreateAccount(UserCreationForm):
     class Meta:
         model = get_user_model()

@@ -44,9 +44,9 @@
                 <p>Profil</p>
             </div>
 
-            <div class="compte">
-                <a href="{%url 'logout'%}">Se déconnecter</a>
-        </div>
+            <div class="same" id="profil" data-page="{%url 'logout'%}">
+                <p>Se déconnecter</p>
+            </div>
         <div class="nav-right">
             <div class="compte">
                 <span id="s1">{{ user.first_name|first }}</span>
@@ -65,14 +65,14 @@
         <section class="hero-section">
             <h1 class="hero-title">Bonjour <span id="userNameHero">{{user.first_name}} {{user.last_name}}</span></h1>
             <div class="hero-buttons">
-                <button class="btn btn-white action-nouveau-projet" data-page="">
+                <a href="{%url 'add_project' user_id%}" class="btn btn-white">
                     <i class="fa-solid fa-plus"></i>
-                    <a href = "{%url 'add_project' user_id%}">Nouveau projet</a>
-                </button>
-                <button class="btn btn-white action-declarer-besoin">
+                    Nouveau projet
+                </a>
+                <a href="{%url 'add_request' user_id%}" class="btn btn-white">
                     <i class="fa-solid fa-plus"></i>
-                    <a href = "{%url 'add_request' user_id%}">Nouveau besoin</a>
-                </button>
+                    Nouveau besoin
+                </a>
             </div>
         </section>
 
@@ -116,16 +116,16 @@
                     <h2 class="section-title">Mes projets</h2>
                     <p class="section-subtitle">Gérez et suivez l'état de vos projets</p>
                 </div>
-                <button class="btn btn-outline action-declarer-besoin">
-                    <i class="fa-solid fa-plus"></i> 
-                    <a href = "{%url 'add_project' user_id%}">Nouveau projet</a>
-                </button>
+
+                <a href="{%url 'add_project' user_id%}" class="btn btn-outline action-declarer-besoin">
+                    <i class="fa-solid fa-plus"></i>
+                    Nouveau projet
+                </a>
             </div>
 
 
             <div id="projects-container" class="cards-container">
                 <!-- Les projets seront injectés ici par JS -->
-                     <ul>
                      {%for p in user_projects%}
                         <div class="project-card">
                             <div class="project-header-row">
@@ -137,9 +137,11 @@
                             <div class="project-footer">
                     <button class="btn btn-outline" onclick="window.location.href='/project_details/{{p.id}}/{{user_id}}/0'"><i class="fa-regular fa-eye"></i> Voir détails</button>
                 </div> 
+                </div>
                      {%endfor%}
-                     </ul>
+            
             </div>
+            
         </section>
 
         <!-- NEEDS SECTION -->
@@ -149,10 +151,10 @@
                     <h2 class="section-title">Besoins récents</h2>
                     <p class="section-subtitle">Vos demandes de ressources et de soutien</p>
                 </div>
-                <button class="btn btn-outline action-declarer-besoin">
+                <a href="{%url 'add_request' user_id%}" class="btn btn-outline action-declarer-besoin">
                     <i class="fa-solid fa-plus"></i>
-                    <a href = "{%url 'add_request' user_id%}">Nouveau besoin</a>
-                </button>
+                    Nouveau besoin
+                </a>
             </div>
 
             <div id="needs-container" class="cards-container">
@@ -168,6 +170,7 @@
                       </div>
                         {%endfor%}
             </div>
+            
         </section>
 
 

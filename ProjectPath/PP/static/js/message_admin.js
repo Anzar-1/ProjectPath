@@ -18,7 +18,7 @@ let messages = JSON.parse(document.getElementById('message-data').textContent);
 let selectedId = null;
 
 const recus = messages.filter(m =>
-    m.fields.receveur === username
+    m.fields.receveur === null
 );
 
 const envoyes = messages.filter(m =>

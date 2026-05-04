@@ -122,9 +122,9 @@ function renderProjects(filter) {
         <span>📅 Soumis le ${project.fields.created_at} </span>
       </div>
       <div class="project-actions">
-        <button class="btn btn-view"><a href= "/project_details/${project.pk}/${user_id}/1">
-        👁️ Voir détail</a>
-        </button>
+        <a class="btn btn-view" href= "/project_details/${project.pk}/${user_id}/1">
+        👁️ Voir détail
+        </a>
       </div>
     </div>
   `).join('');

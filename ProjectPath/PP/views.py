@@ -42,9 +42,14 @@ def project_details(request, project_id,user_id,user_type):
     etudiants = projett.participants
     besoin = Besoin.objects.filter(projet_concerne = projett.nom_projet)
     if user_type == 1:
+        #Making all the besoin and project to en attente
         if projett.statut == "NonVue":
             projett.statut = "EnAttente"
             projett.save()
+        for b in besoin:
+            if b.statut == "NonVue":
+                b.statut = "enAttente"
+                b.save()
         if request.method == "POST":
             action = request.POST.get("action")
             obj_id = request.POST.get("id")

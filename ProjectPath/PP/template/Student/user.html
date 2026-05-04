@@ -46,9 +46,10 @@
                 <p>Profil</p>
             </div>
 
-            <div class="compte">
-                <a href="{%url 'logout'%}">Se déconnecter</a>
-        </div>
+            <div class="same" id="profil" data-page="{%url 'logout'%}">
+                <p>Se déconnecter</p>
+            </div>
+
         <div class="nav-right">
             <div class="compte">
                 <span id="s1">{{ user.first_name|first }}</span>
