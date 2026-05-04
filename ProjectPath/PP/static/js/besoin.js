@@ -62,3 +62,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+//trying to disable button after click:
+function handleSubmit(form) {
+  const button = form.querySelector('input[type="submit"]');
+  button.disabled = true;
+  button.value = "Envoi en cours...";
+  return true; // allow submission
+}

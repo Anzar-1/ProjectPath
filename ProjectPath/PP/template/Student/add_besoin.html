@@ -75,12 +75,13 @@
        
     </div>
 
+
     <div class="container2">
         <h5>Formulaire de demande</h5>
         <p>Décrivez précisément votre besoin pour faciliter son traitement</p>
     
 
-    <form enctype="multipart/form-data" action ="" method="POST">
+    <form enctype="multipart/form-data" action ="" method="POST" onsubmit="return handleSubmit(this)">
         {%csrf_token%}
         <div class="same">
             {{form.projet_concerne.errors}}
