@@ -137,15 +137,15 @@ def message_staff(request, user_id):
             "pk": m.pk,
             "fields" : {
                 "contenu": m.contenu,
-                "emetteur": m.emetteur.username,
-                "receveur": m.receveur.username if m.receveur else None,
-                "projet": m.project.nom_projet,
+                "emetteur": getattr(m.emetteur, "username", None),
+                "receveur": getattr(m.receveur, "username", None),
+                "projet": getattr(m.project, "nom_projet", None),
                 "created_at": m.created_at
             }
         }
         for m in mes
     ]
-
+    print(mes)
     
     return render(request, "Admin/message.html",{"user_id": user_id, "user": user, "message": mes,
                                                 "mes_envoye": mes_envoye, "mes_recu": mes_recu, "mes": mes_total})

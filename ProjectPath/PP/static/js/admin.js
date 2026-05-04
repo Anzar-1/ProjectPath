@@ -333,7 +333,7 @@ function renderNeeds() {
           </div>
         </div>
       </div>
-      <p class="need-project"><strong>Projet:</strong> ${need.fields.project_concerne}</p>
+      <p class="need-project"><strong>Projet:</strong> ${need.fields.projet_concerne}</p>
       <p class="need-description">${need.fields.description}</p>
       <p class="need-description"><strong>Justification:</strong> ${need.fields.justification}</p>
       ${need.fields.statut === 'EnAttente' ? `

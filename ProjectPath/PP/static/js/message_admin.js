@@ -25,6 +25,19 @@ const envoyes = messages.filter(m =>
     m.fields.emetteur === username
 );
 
+//Format dates
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  return date.toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
 // === Render message list ===
 function renderList(list,filter = "") {
     const panel = document.getElementById("messages-list");
@@ -53,7 +66,7 @@ function renderList(list,filter = "") {
             <div class="msg-info">
                 <p class="msg-name">${msg.fields.emetteur}</p>
                 <p class="msg-preview">Du projet: ${msg.fields.projet}</p>
-                <p class="msg-date">${msg.fields.created_at}</p>
+                <p class="msg-date">${formatDate(msg.fields.created_at)}</p>
             </div>
         </div>
         `;
@@ -83,17 +96,15 @@ function selectMessage(id) {
     detail.innerHTML = `
         <div class="detail-header">
             <div class="detail-meta">
-                <h3>${msg.fields.emetteur} <span class="detail-badge">Etudiant</span></h3>
-                <p class="detail-date">${msg.fields.created_at}</p>
+                <h3>${msg.fields.emetteur} <span class="detail-badge"></span></h3>
+                <p class="detail-date">${formatDate(msg.fields.created_at)}</p>
                 <p>Rataché au projet ${msg.fields.projet}</p>
             </div>
-        </div>
+        
 
         <div class="detail-body">
             <p>${msg.fields.contenu}</p>
-            <div class="detail-tag">
-                <i class="fa-solid fa-link"></i> ${msg.tag}
-            </div>
+        </div>
         </div>
     `;
 

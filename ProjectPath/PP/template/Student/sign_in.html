@@ -83,7 +83,6 @@
                     <input type="email" name="email" maxlength="254" id="id_email">
                     
                 </div>
-
                 <div>
                     <label for="id_niveau_etude">Niveau d'étude:</label>
 
@@ -123,14 +122,13 @@
                 <p>{{form.password2.errors}}</p>
                 <input type="password" name="password2" autocomplete="new-password" required="" aria-invalid="true" aria-describedby="id_password2_helptext id_password2_error" id="id_password2">
                 </div>
-
-                <p>&nbsp;&nbsp;&nbsp;</p>
                 <p>&nbsp;&nbsp;&nbsp;</p>
             
-                <input type = "submit" value = "S'inscrire"/>
+                <input type = "submit" value = "S'inscrire" class="submit1"/>
             </form>
+            <a href = '{%url "authentification" %}'>Déjà un compte ? se connecter</a>
             </div>
-             <a href = '{%url "authentification" %}'>Déjà un compte ? se connecter</a>
+             
         </div>
             <script type="text/javascript" src = "{% static 'js/login.js' %}"></script>
     </body>

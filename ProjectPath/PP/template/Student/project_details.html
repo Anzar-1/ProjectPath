@@ -124,22 +124,13 @@
                 <!-- Actions -->
                 <div class="card">
                     <h2 class="card-title">Actions</h2>
-                    <a href="{% url 'contact_us' user_id %}" class="btn-action-outline">
-                       <i class="fa-regular fa-comment-dots"></i> Contacter l'administration
-                    </a>
                     {%if document_manquant%}
                         <a href="{% url 'modify_Project' p.id user_id %}" class="btn-action-outline">
                             Modifiez votre projet
                         </a>
+                    {%else%}
+                        <p class="project-description">Aucune action possible pour l'instant.</p>
                     {%endif%}
-                </div>
-
-                <!-- Historique -->
-                <div class="card">
-                    <h2 class="card-title">Historique</h2>
-                    <div class="history-empty" style="height: 100px;">
-                        <!-- Contenu historique vide pour l'instant -->
-                    </div>
                 </div>
 
             </div>

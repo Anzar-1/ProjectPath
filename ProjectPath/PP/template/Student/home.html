@@ -49,7 +49,7 @@
         </div>
         <div class="nav-right">
             <div class="compte">
-                <span id="s1">A</span>
+                <span id="s1">{{ user.first_name|first }}</span>
                 <span id="s2">{{user.last_name}} {{user.first_name}}</span>
             </div>
             <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')">
@@ -93,8 +93,8 @@
                 </div>
             </div>
             <div class="stat-card stat-pending">
-                <p class="stat-label">{{prj_enAtt}}</p>
-                <h2 class="stat-value text-yellow" id="stat-pending-val">1</h2>
+                <p class="stat-label">Projets en Attente</p>
+                <h2 class="stat-value text-yellow" id="stat-pending-val">{{prj_enAtt}}</h2>
                 <div class="stat-footer text-yellow">
                     <i class="fa-regular fa-clock"></i> Validation en cours
                 </div>
@@ -103,7 +103,7 @@
                 <p class="stat-label">Besoins déclarés</p>
                 <h2 class="stat-value text-orange" id="stat-needs-val">{{bs_nb}}</h2>
                 <div class="stat-footer text-orange">
-                    <i class="fa-solid fa-arrow-trend-up"></i> <span id="stat-needs-approved">1</span> approuvés
+                    <i class="fa-solid fa-arrow-trend-up"></i> <span id="stat-needs-approved"></span>
                 </div>
             </div>
         </section>
@@ -121,13 +121,7 @@
                     <a href = "{%url 'add_project' user_id%}">Nouveau projet</a>
                 </button>
             </div>
-            <!--Y a aussi un compte ici-->
-            <div class="tabs">
-                <button class="tab active" data-filter="all">Tous (<span id="tab-all-count">{{prj_nb}}</span>)</button>
-                <button class="tab" data-filter="approved">Approuvés (<span id="tab-approved-count">{{prj_valide}}</span>)</button>
-                <button class="tab" data-filter="pending">En attente (<span id="tab-pending-count">{{prj_enAtt}}</span>)</button>
-                <button class="tab" data-filter="revision">À corriger (<span id="tab-revision-count">{{prj_refuse}}</span>)</button>
-            </div>
+
 
             <div id="projects-container" class="cards-container">
                 <!-- Les projets seront injectés ici par JS -->
