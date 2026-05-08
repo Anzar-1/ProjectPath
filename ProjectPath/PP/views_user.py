@@ -151,6 +151,7 @@ def message_staff(request, user_id):
 
 
 from PP.form import ModifyAdminAccount
+from PP.form import ResetPasswordForm
 
 @login_required
 @user_passes_test(is_staff_user)    
@@ -160,12 +161,23 @@ def staff_details(request, user_id):
     user = CompteEtudiant.objects.get(id = user_id)
     if request.method == "POST":
         form = ModifyAdminAccount(request.POST, instance = user)
+        form_password = ResetPasswordForm(user,request.POST)
         if form.is_valid():
             user = form.save()
             return redirect("user_details", user.id)
+        if form_password.is_valid():
+            form_password.save()
+            return redirect("user_details", user.id)
+        elif not form_password.is_valid():
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+
     else:
         form = ModifyAdminAccount(instance= user)
-    return render(request, "Admin/user.html", {"user": user, "user_id": user_id, "form": form}) 
+        form_password = ResetPasswordForm(user)
+    return render(request, "Admin/user.html", {"user": user, "user_id": user_id, "form": form, 
+                                               "form_password":form_password}) 
     
 #Other stuff
 

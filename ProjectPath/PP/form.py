@@ -6,6 +6,7 @@ from PP.models import message
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import SetPasswordForm
 
 class CustomFKF(forms.ModelChoiceField):
     def label_from_instance(self, obj):
@@ -54,3 +55,23 @@ class message_form(forms.ModelForm):
         model = message
         exclude = ('vu','emetteur', 'receveur', "project", "request")
 
+class ResetPasswordForm(SetPasswordForm):
+    """User enters new password"""
+    new_password1 = forms.CharField(
+        label="Nouveau mot de passe",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Entrez le nouveau mot de passe',
+            'required': True
+        }),
+        min_length=8
+    )
+    new_password2 = forms.CharField(
+        label="Confirmer le mot de passe",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Confirmez le mot de passe',
+            'required': True
+        }),
+        min_length=8
+    )
