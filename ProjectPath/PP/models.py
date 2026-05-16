@@ -24,7 +24,7 @@ def Validate_fichier(value):
         raise ValidationError("Le fichier dois être un PDF.")
 
 class CompteEtudiant(AbstractUser, PermissionsMixin):
-    matricule = models.fields.IntegerField(unique=True, validators= [Validate_matricule], default = "123489357")
+    matricule = models.fields.IntegerField(unique=True, validators= [Validate_matricule], default = "123889357")
     class Niveau(models.TextChoices):
         one = "1CP", "1CP"
         two = "2CP", "2CP"
