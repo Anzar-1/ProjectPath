@@ -40,7 +40,8 @@ def project_details(request, project_id,user_id,user_type):
     messages = message.objects.filter(project = projett)
     message_nbr = messages.count()
     etudiants = projett.participants
-    besoin = Besoin.objects.filter(projet_concerne = projett.nom_projet)
+    besoin = Besoin.objects.filter(projet_concerne = projett.nom_projet, participant = projett.participants)
+
     if user_type == 1:
         #Making all the besoin and project to en attente
         if projett.statut == "NonVue":
@@ -204,9 +205,9 @@ def modify_request(request, b_id,user_id):
     if request.method == "POST":
         form = requestNeed(request.POST, request.FILES,instance = besoin)
         if form.is_valid():
-            b = form.save()
-            b.statut = "NonVue"
-            b.save()
+            besoin = form.save()
+            besoin.statut = "NonVue"
+            besoin.save()
             return redirect("home",user_id)
     else:
         form = requestNeed(instance= besoin)

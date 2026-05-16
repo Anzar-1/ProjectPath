@@ -23,7 +23,7 @@ def student_authentification(request):
             if form.is_valid():
                 return authentificate_user(request, form)
         else: 
-            print(form.errors)
+            messages.error(request, "Nom d'utilisateur ou mot de passe incorects.")
     else:
         form = authentification_Student()
     return render(request, "Student/authentification.html", {"form": form})

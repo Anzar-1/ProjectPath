@@ -337,3 +337,81 @@ input{
         gap: 10px;
     }
 }
+
+/* === NEEDS CARD === */
+.needs-list {
+  display: grid;
+  gap: 16px;
+}
+
+.need-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #E5E7EB;
+}
+
+.need-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 16px;
+}
+
+.need-type {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 8px;
+}
+
+.need-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.priority-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.priority-badge.high {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.priority-badge.medium {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.priority-badge.low {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.need-project {
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 8px;
+}
+
+.need-project strong {
+  color: #374151;
+}
+
+.need-description {
+  font-size: 14px;
+  color: #4B5563;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.need-actions {
+  display: flex;
+  gap: 8px;
+}

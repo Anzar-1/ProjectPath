@@ -29,12 +29,24 @@ class requestNeed(forms.ModelForm):
         if not projet.objects.filter(nom_projet=project).exists():
             raise forms.ValidationError("Ce projet n'existe pas.")
 
-        return projet
+        return project
 
 class CreateAccount(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ['username', 'matricule', 'first_name' ,'last_name', 'email','niveau_etude' ,'telephone']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and not email.endswith('@estin.dz'):
+            raise forms.ValidationError("L'adresse mail doit être du domaine 'ESTIN' (@estin.dz).")
+        
+        # Check if email is already taken by another user
+        User = get_user_model()
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Il semblerait que cette adresse email soit déjà utilisée par un autre compte.")
+            
+        return email
 
 class authentification_Student(forms.Form):
     username = forms.CharField(max_length=100)

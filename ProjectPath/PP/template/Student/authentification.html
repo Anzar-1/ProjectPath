@@ -63,6 +63,15 @@
                 <input type = "submit" class="submit1" value = "Se connecter"/>
             </form>
 
+            {% for message in messages %}
+    
+                <div class="alert alert-success">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
       <p class="dernier">En vous connectant, vous acceptez nos conditions d'utilisation</p>
 
       <p>&nbsp;</p>

@@ -112,6 +112,9 @@
                     </div>
                     <p class="need-description"><strong>{{need.description}}</strong></p>
                     <p class="need-description"><strong>Justification:</strong> {{need.justification}}</p>
+                    {%if need.file_path%}
+                      <a class="need-description" href="/media/{{need.file_path}}"><strong>Fichier lié:</strong> </a>
+                    {%endif%}
 
                     <form method="POST">
                     {%csrf_token%}

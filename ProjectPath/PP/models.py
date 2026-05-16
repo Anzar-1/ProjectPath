@@ -8,11 +8,11 @@ def Validate_email_adress(value):
         raise ValidationError("L'adresse mail ne fait pas parti du domaine 'ESTIN'.")
 
 def Validate_matricule(value):
-    if value >= 1000000000000 or value <= 99999999999:
+     if value >= 1000000000000 or value < 100000000000:
         raise ValidationError("La matricule doit contenir 12 chiffres.")
 
 def Validate_telephone(value):
-    if value >=1000000000 or value <= 99999999:
+    if value >= 1000000000 or value < 100000000:
         raise ValidationError("Le numero de telephone doit contenir au moins 9 chiffre (sans compte le 0)")
 
 import os
@@ -33,10 +33,7 @@ class CompteEtudiant(AbstractUser, PermissionsMixin):
         five = "3CS", "3CS"
 
     niveau_etude = models.fields.CharField(max_length = 5 , choices = Niveau.choices, default = "1CP")
-    adresse_mail = models.fields.EmailField(blank=True, max_length=254, verbose_name='email address',default = "Bonjour@estin.dz")
     telephone = models.fields.IntegerField(validators=[Validate_telephone], default=42)
-    
-    EMAIL_FIELD = 'adress_mail'
 
     class Meta:
         verbose_name = "User"

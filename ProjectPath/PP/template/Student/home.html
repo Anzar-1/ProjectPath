@@ -166,7 +166,9 @@
                              <span class="badge ${priorityClass}">{{b.priority}}</span>
                          </div>
                         <p class="need-desc">{{b.justification}}</p>
-                        <p class = "need-desc"><a href ="{%url 'modify_request' b.id user_id%}" >Modifiez...</a></p>
+                        {%if b.file_path%}
+                        <a class="need-desc" href="/media/{{b.file_path}}">Fichier lié.</a>
+                        {%endif%}
                       </div>
                         {%endfor%}
             </div>
